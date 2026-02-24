@@ -2,63 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function form()
+
+    public function login()
     {
         return view('auth.login');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            "email" => "required|string",
+            "password" => "required|string"
+        ]);
+
+        $user = User::where("email", $data["email"])->where('status',1)->where('is_active',1 )->first();
+
+        $remember = $request->has('remember');
+
+        if($user && Hash::check($data['password'], $user->password)){
+            Auth::login(($user), $remember);
+            return redirect()->route('home');
+        }
+
+        return redirect()->back()->withErrors(['email' => 'Invalid credentials']);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+    public function logout(){
+        Auth::logout();
+        return redirect()->route('login');
     }
 }
