@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Inventory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class InventoryTest extends TestCase
@@ -26,5 +27,18 @@ class InventoryTest extends TestCase
         $this->assertDatabaseHas('inventories', [
             'name' => 'iPhone 15'
         ]);
+    }
+
+    public function test_inventory_index_is_accessible()
+    {
+        $user = User::factory()->create();
+
+        Inventory::factory()->count(3)->create();
+
+        $response = $this->actingAs($user)->get('/inventory');
+
+        $response->assertStatus(200);
+        $response->assertViewIs('inventory.index');
+        $response->assertViewHas('products');
     }
 }
