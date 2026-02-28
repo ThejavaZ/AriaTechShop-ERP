@@ -50,4 +50,23 @@ class InventoryController extends Controller
         return redirect()->route('inventory.index')
                         ->with('success', 'Precio actualizado correctamente');
     }
+
+        public function restock()
+    {
+        $products = Inventory::all();
+        return view('inventory.restock', compact('products'));
+    }
+
+    public function storeRestock(Request $request)
+    {
+        $request->validate([
+            'inventory_id' => 'required|exists:inventories,id',
+            'cantidad' => 'required|integer|min:1'
+        ]);
+
+        Inventory::registrarRestock($request->inventory_id, $request->cantidad);
+
+        return redirect()->route('inventory.index')
+                        ->with('success', 'Restock registrado correctamente');
+    }
 }
