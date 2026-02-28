@@ -32,4 +32,22 @@ class InventoryController extends Controller
         $products = Inventory::listar();
         return view('inventory.index', compact('products'));
     }
+
+        public function edit(int $id)
+    {
+        $product = Inventory::findOrFail($id);
+        return view('inventory.edit', compact('product'));
+    }
+
+    public function updatePrice(Request $request, int $id)
+    {
+        $request->validate([
+            'price' => 'required|numeric|min:0'
+        ]);
+
+        Inventory::actualizarPrecio($id, $request->price);
+
+        return redirect()->route('inventory.index')
+                        ->with('success', 'Precio actualizado correctamente');
+    }
 }
