@@ -60,4 +60,24 @@ class InventoryTest extends TestCase
             'price' => 1500
         ]);
     }
+
+        public function test_inventory_restock_updates_stock()
+    {
+        $user = User::factory()->create();
+
+        $product = Inventory::factory()->create([
+            'stock' => 10
+        ]);
+
+        $response = $this->actingAs($user)->post('/inventory/restock', [
+            'inventory_id' => $product->id,
+            'cantidad' => 5
+        ]);
+
+        $response->assertRedirect(route('inventory.index'));
+        $this->assertDatabaseHas('inventories', [
+            'id' => $product->id,
+            'stock' => 15
+        ]);
+    }
 }

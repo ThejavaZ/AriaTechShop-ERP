@@ -10,9 +10,14 @@
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <span><i class="fas fa-boxes me-1"></i> Lista de Productos</span>
-            <a href="{{ route('inventory.create') }}" class="btn btn-primary btn-sm">
-                <i class="fas fa-plus"></i> Nuevo Producto
-            </a>
+            <div>
+                <a href="{{ route('inventory.restock') }}" class="btn btn-success btn-sm me-1">
+                    <i class="fas fa-plus"></i> Restock
+                </a>
+                <a href="{{ route('inventory.create') }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus"></i> Nuevo Producto
+                </a>
+            </div>
         </div>
         <div class="card-body">
             @if($products->isEmpty())

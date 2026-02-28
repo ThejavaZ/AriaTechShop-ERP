@@ -51,4 +51,12 @@ class Inventory extends Model
         $producto->save();
         return $producto;
     }
+
+    public static function registrarRestock(int $id, int $cantidad): self
+    {
+        $producto = self::findOrFail($id);
+        $producto->stock += $cantidad;
+        $producto->save();
+        return $producto;
+    }
 }
