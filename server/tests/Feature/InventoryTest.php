@@ -41,4 +41,23 @@ class InventoryTest extends TestCase
         $response->assertViewIs('inventory.index');
         $response->assertViewHas('products');
     }
+
+    public function test_inventory_price_can_be_updated()
+    {
+        $user = User::factory()->create();
+
+        $product = Inventory::factory()->create([
+            'price' => 1000
+        ]);
+
+        $response = $this->actingAs($user)->patch("/inventory/{$product->id}/price", [
+            'price' => 1500
+        ]);
+
+        $response->assertRedirect(route('inventory.index'));
+        $this->assertDatabaseHas('inventories', [
+            'id' => $product->id,
+            'price' => 1500
+        ]);
+    }
 }
