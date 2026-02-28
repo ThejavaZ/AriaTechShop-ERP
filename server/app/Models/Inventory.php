@@ -18,37 +18,18 @@ class Inventory extends Model
         'description'
     ];
 
-        protected static function booted()
+    // Registrar automáticamente en logs cuando se crea
+    protected static function booted()
     {
         static::created(function ($inventory) {
             Log::info('Producto registrado en inventario: ' . $inventory->name);
-        });
-
-        static::updated(function ($inventory) {
-
-            if ($inventory->wasChanged('price')) {
-                Log::info('Precio actualizado', [
-                    'producto_id' => $inventory->id,
-                    'nombre' => $inventory->name,
-                    'precio_anterior' => $inventory->getOriginal('price'),
-                    'precio_nuevo' => $inventory->price,
-                ]);
-            }
         });
     }
 
     public static function listar()
     {
-        return self::select('id','name', 'category', 'price', 'stock')
-                ->orderBy('name')
-                ->paginate(10);
-    }
-
-        public static function actualizarPrecio(int $id, float $precio): self
-    {
-        $producto = self::findOrFail($id);
-        $producto->price = $precio;
-        $producto->save();
-        return $producto;
+        return self::select('name', 'category', 'price', 'stock')
+                   ->orderBy('name')
+                   ->paginate(10);
     }
 }

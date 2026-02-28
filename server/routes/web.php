@@ -21,10 +21,12 @@ Route::middleware('auth')->group(function(){
     # --- End User Section --- #
 
     # --- Inventory Section --- #
-    Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
-    Route::get('/inventory/create', [InventoryController::class, 'create'])->name('inventory.create');
-    Route::post('/inventory', [InventoryController::class, 'store'])->name('inventory.store');
-    Route::get('/inventory/{id}/edit-price', [InventoryController::class, 'edit'])->name('inventory.edit');
-    Route::patch('/inventory/{id}/price', [InventoryController::class, 'updatePrice'])->name('inventory.updatePrice');
+    Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index')
+    ->withoutMiddleware('auth'); //temporal
+    Route::get('/inventory/create', [InventoryController::class, 'create'])->name('inventory.create')
+    ->withoutMiddleware('auth'); //temporal
+    Route::post('/inventory', [InventoryController::class, 'store'])->name('inventory.store')
+    ->withoutMiddleware('auth'); //temporal
+    
     # --- End Inventory Section --- #
 });
