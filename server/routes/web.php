@@ -28,5 +28,7 @@ Route::middleware('auth')->group(function(){
     Route::post('/inventory/restock', [InventoryController::class, 'storeRestock'])->name('inventory.storeRestock');
     Route::get('/inventory/{id}/edit-price', [InventoryController::class, 'edit'])->name('inventory.edit');
     Route::patch('/inventory/{id}/price', [InventoryController::class, 'updatePrice'])->name('inventory.updatePrice');
+    Route::get('/inventory/{id}/adjust-stock', [InventoryController::class, 'adjustStock'])->name('inventory.adjustStock');
+    Route::patch('/inventory/{id}/adjust-stock', [InventoryController::class, 'storeAdjustStock'])->name('inventory.storeAdjustStock');
     # --- End Inventory Section --- #
 });

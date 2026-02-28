@@ -59,4 +59,13 @@ class Inventory extends Model
         $producto->save();
         return $producto;
     }
+
+        public static function ajustarStock(int $id, int $cantidad): self
+    {
+        $producto = self::findOrFail($id);
+        $producto->stock = $cantidad;
+        $producto->save();
+        Log::info('Stock ajustado manualmente: ' . $producto->name . ' → ' . $cantidad . ' unidades');
+        return $producto;
+    }
 }
