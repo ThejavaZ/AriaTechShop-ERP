@@ -26,4 +26,10 @@ class InventoryController extends Controller
 
         return redirect()->back()->with('success', 'Producto registrado correctamente');
     }
+
+    public function index()
+    {
+        $products = Inventory::listar();
+        return view('inventory.index', compact('products'));
+    }
 }
