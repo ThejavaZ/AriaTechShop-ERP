@@ -30,7 +30,7 @@
                             <th>Categoría</th>
                             <th>Precio</th>
                             <th>Stock</th>
-                            <th>Acciones</th>  {{-- agregar esto --}}
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,9 +40,12 @@
                                 <td>{{ $product->category }}</td>
                                 <td>${{ number_format($product->price, 2) }}</td>
                                 <td>{{ $product->stock }}</td>
-                                <td>  {{-- agregar esto --}}
+                                <td>
                                     <a href="{{ route('inventory.edit', $product->id) }}" class="btn btn-warning btn-sm">
                                         <i class="fas fa-edit"></i> Editar Precio
+                                    </a>
+                                    <a href="{{ route('inventory.adjustStock', $product->id) }}" class="btn btn-info btn-sm">
+                                        <i class="fas fa-sliders-h"></i> Ajustar Stock
                                     </a>
                                 </td>
                             </tr>

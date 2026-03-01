@@ -69,4 +69,22 @@ class InventoryController extends Controller
         return redirect()->route('inventory.index')
                         ->with('success', 'Restock registrado correctamente');
     }
+
+        public function adjustStock(int $id)
+    {
+        $product = Inventory::findOrFail($id);
+        return view('inventory.adjust-stock', compact('product'));
+    }
+
+    public function storeAdjustStock(Request $request, int $id)
+    {
+        $request->validate([
+            'stock' => 'required|integer|min:0'
+        ]);
+
+        Inventory::ajustarStock($id, $request->stock);
+
+        return redirect()->route('inventory.index')
+                        ->with('success', 'Stock ajustado correctamente');
+    }
 }

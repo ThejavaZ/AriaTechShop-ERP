@@ -80,4 +80,23 @@ class InventoryTest extends TestCase
             'stock' => 15
         ]);
     }
+
+        public function test_inventory_stock_can_be_adjusted()
+    {
+        $user = User::factory()->create();
+
+        $product = Inventory::factory()->create([
+            'stock' => 10
+        ]);
+
+        $response = $this->actingAs($user)->patch("/inventory/{$product->id}/adjust-stock", [
+            'stock' => 8
+        ]);
+
+        $response->assertRedirect(route('inventory.index'));
+        $this->assertDatabaseHas('inventories', [
+            'id' => $product->id,
+            'stock' => 8
+        ]);
+    }
 }
