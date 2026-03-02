@@ -18,6 +18,8 @@ Route::middleware('auth')->group(function(){
 
     # --- User Section --- #
     Route::get('/users',[UserController::class, 'index'])->name('users');
+    Route::get('/users/create',[UserController::class, 'create'])->name('users.create');
+    Route::get('/users/{id}',[UserController::class, 'show'])->name('users.show');
     # --- End User Section --- #
 
     # --- Inventory Section --- #
@@ -27,6 +29,6 @@ Route::middleware('auth')->group(function(){
     ->withoutMiddleware('auth'); //temporal
     Route::post('/inventory', [InventoryController::class, 'store'])->name('inventory.store')
     ->withoutMiddleware('auth'); //temporal
-    
+
     # --- End Inventory Section --- #
 });
