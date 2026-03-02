@@ -4,13 +4,22 @@
 
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
-<li class="breadcrumb-item active">Dashboard</li>
+<li class="breadcrumb-item active">Usuarios</li>
 @endsection
 
 @section('content')
 
-<div>
-    <a href="" class="btn btn-outline-primary">
+<div class="d-flex justify-between mb-4">
+    <a href="" class="btn btn-lg btn-outline-danger">
+        <i class="fas fa-file-pdf"></i>
+    </a>
+    <a href="" class="btn btn-lg btn-outline-primary">
+        <i class="fas fa-file-word"></i>
+    </a>
+    <a href="" class="btn btn-lg btn-outline-success">
+        <i class="fas fa-file-excel"></i>
+    </a>
+    <a href="{{ route('users.create') }}" class="btn btn-lg btn-outline-warning">
         <i class="fas fa-plus"></i>
     </a>
 </div>
@@ -41,15 +50,15 @@
                     <th>Nombre</th>
                     <th>Email</th>
                     <th>Cambiar contraseña</th>
-                    <th>Acciones</th>
-                    <th>Acciones</th>
-                    <th>Acciones</th>
+                    <th>Verificado</th>
+                    <th>Rol</th>
+                    <th>Idioma</th>
                     <th>Creado</th>
                     <th>Creado Hace</th>
                     <th>Actualizado</th>
                     <th>Actualizado Hace</th>
                     <th>Acciones</th>
-                    <th>Acciones</th>
+                    <th>Reportes</th>
                 </tr>
             </thead>
             <tfoot>
@@ -65,7 +74,7 @@
                     <th>Actualizado</th>
                     <th>Actualizado Hace</th>
                     <th>Acciones</th>
-                    <th>Acciones</th>
+                    <th>Reportes</th>
                 </tr>
             </tfoot>
             <tbody>
@@ -80,24 +89,59 @@
                             </a>
                         </td>
                         <td>{{ $user->email_verified_at }}</td>
-                        <td>{{ $user->role }}</td>
-                        <td>{{ $user->languages }}</td>
+                        <td>
+                            @switch($user->role)
+                                @case(1)
+                                    Administrador
+                                    @break
+                                @case(2)
+                                    Operador
+                                    @break
+                                @default
+                                    No Info
+                            @endswitch
+                        </td>
+                        <td>
+                            @switch($user->language)
+                                @case(1)
+                                    Español
+                                    @break
+                                @case(2)
+                                    Inglés
+                                    @break
+                                @default
+                                    No Info
+                            @endswitch
+                        </td>
                         <td>{{ $user->created_at->format('d/m/Y H:i:s') }}</td>
                         <td>{{ $user->created_at->diffForHumans() }}</td>
                         <td>{{ $user->updated_at->format('d/m/Y H:i:s') }}</td>
                         <td>{{ $user->updated_at->diffForHumans() }}</td>
-                        <td>{{ $user->deleted_at }}</td>
+
                         <td>
-                            <a href="" class="btn btn-outline-info">
+                            <a href="{{ route('users.show', $user->id) }}" class="btn btn-lg btn-outline-info">
                                 <i class="fas fa-eye"></i>
                             </a>
 
-                            <a href="" class="btn btn-outline-warning">
+                            <a href="" class="btn btn-lg btn-outline-warning">
                                 <i class="fas fa-edit"></i>
                             </a>
 
-                            <a href="" class="btn btn-outline-danger">
+                            <a href="" class="btn btn-lg btn-outline-danger">
                                 <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="" class="btn btn-lg btn-outline-danger">
+                                <i class="fas fa-file-pdf"></i>
+                            </a>
+
+                            <a href="" class="btn btn-lg btn-outline-primary">
+                                <i class="fas fa-file-word"></i>
+                            </a>
+
+                            <a href="" class="btn btn-lg btn-outline-success">
+                                <i class="fas fa-file-excel"></i>
                             </a>
                         </td>
                     </tr>

@@ -13,7 +13,7 @@ class UserController extends Controller
     public function index()
     {
         $index = 1;
-        $users = User::where('status', 1)->get();
+        $users = User::where('is_active', 1)->get();
         return view('users.index', compact('index', 'users'));
     }
 
@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create');
     }
 
     /**
@@ -30,7 +30,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            "name" => "required|string"
+        ]);
     }
 
     /**
@@ -38,7 +40,8 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::where("id", $id)->where("is_active",1)->first();
+        return view("users.show", compact('user'));
     }
 
     /**
@@ -65,6 +68,7 @@ class UserController extends Controller
         //
     }
 
+
     public function usersChart()
 {
     $users = \DB::table('users')
@@ -76,3 +80,6 @@ class UserController extends Controller
     return response()->json($users);
 }
 }
+
+
+

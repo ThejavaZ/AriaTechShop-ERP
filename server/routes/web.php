@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users');
 
     Route::get('/users',[UserController::class, 'index'])->name('users');
+
     Route::get('/users-chart-data', [UserController::class, 'usersChart'])
     ->name('users.chart.data');
 
@@ -44,6 +45,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/repairs', RepairsList::class)->name('repairs.index');
 
 
+
+    Route::get('/users/create',[UserController::class, 'create'])->name('users.create');
+    Route::get('/users/{id}',[UserController::class, 'show'])->name('users.show');
+    # --- End User Section --- #
+
+    # --- Inventory Section --- #
+    Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index')
+    ->withoutMiddleware('auth'); //temporal
+    Route::get('/inventory/create', [InventoryController::class, 'create'])->name('inventory.create')
+    ->withoutMiddleware('auth'); //temporal
+    Route::post('/inventory', [InventoryController::class, 'store'])->name('inventory.store')
+    ->withoutMiddleware('auth'); //temporal
 
 
     # --- End Inventory Section --- #
