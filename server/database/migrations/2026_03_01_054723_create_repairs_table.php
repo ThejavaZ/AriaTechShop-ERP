@@ -12,28 +12,50 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('repairs', function (Blueprint $table) {
-        $table->id(); // El ID que ves: 1023, 1024...
-
-        // Relación con el cliente (asumiendo que usas tu tabla users)
-        $table->foreignId('user_id')->constrained()->onDelete('cascade');
-
-        $table->string('equipment'); // Ejemplo: Laptop HP
-        $table->string('model')->nullable(); // Opcional: iPhone 13
-
-        // Para el "Estado" (Listo, En reparación)
-        // Usamos string o tinyInteger según prefieras para tu lógica de colores
-        $table->string('status')->default('pending'); 
-
-        $table->text('fault_description')->nullable(); // Qué le falla
-        $table->decimal('total_cost', 10, 2)->default(0);
-
-        $table->timestamps(); // Esto genera 'created_at' que será tu columna 'Fecha'
+            $table->id();
+            $table->string('repair_number')->unique(); // RRP-001
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete(); // Cliente
+            $table->string('customer_name');
+            $table->string('customer_email');
+            $table->string('customer_phone');
+            
+            // Información del equipo
+            $table->string('device_type'); // Laptop, Phone, Tablet, etc.
+            $table->string('brand')->nullable();
+            $table->string('model')->nullable();
+            $table->string('serial_number')->nullable();
+            
+            // Detalles de la reparación
+            $table->text('issue_description');
+            $table->text('technician_notes')->nullable();
+            $table->decimal('estimated_cost', 10, 2)->nullable();
+            $table->decimal('final_cost', 10, 2)->nullable();
+            
+            // Estado y fechas
+            $table->enum('status', [
+                'pending',      // Pendiente de revisión
+                'diagnosed',    // Diagnosticado
+                'approved',     // Aprobado por cliente
+                'in_progress',  // En reparación
+                'completed',    // Completado
+                'delivered',    // Entregado
+                'cancelled'     // Cancelado
+            ])->default('pending');
+            
+            $table->date('received_at'); // Fecha de recepción
+            $table->date('estimated_delivery')->nullable();
+            $table->date('delivered_at')->nullable();
+            
+            // Control
+            $table->foreignId('assigned_to')->nullable()->constrained('users')->nullOnDelete(); // Técnico asignado
+            $table->boolean('customer_notified')->default(false);
+            $table->timestamp('last_notification_at')->nullable();
+            
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('repairs');
