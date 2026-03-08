@@ -13,6 +13,15 @@
     <a href="" class="btn btn-outline-primary">
         <i class="fas fa-plus"></i>
     </a>
+        <a href="" class="btn btn-outline-primary">
+        <i class="fas fa-plus"></i>
+    </a>
+        <a href="" class="btn btn-outline-primary">
+        <i class="fas fa-plus"></i>
+    </a>
+        <a href="{{ route('users.create') }}" class="btn btn-outline-primary">
+        <i class="fas fa-plus"></i>
+    </a>
 </div>
 
 <div class="card mb-4">

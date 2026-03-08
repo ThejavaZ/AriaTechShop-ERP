@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create');
     }
 
     /**
@@ -30,7 +30,36 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Aplicamos las reglas de tu Tarjeta de Seguridad #55
+        $data = $request->validate([
+            "name" => "required|string|max:255",
+            "email" => "required|email|unique:users,email",
+            "password" => [
+                'required',
+                'confirmed', // Esto pedirá un campo password_confirmation
+                \Illuminate\Validation\Rules\Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()
+            ],
+            "role" => "required|integer",
+            "language" => "required|integer"
+        ]);
+
+        // Creamos al usuario con los campos de tu modelo
+        User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => \Illuminate\Support\Facades\Hash::make($data['password']),
+            'role' => $data['role'],
+            'language' => $data['language'],
+            'status' => 1,
+            'is_active' => 1
+        ]);
+
+        return redirect()->route('users')->with('success', 'Usuario creado correctamente.');
     }
 
     /**
