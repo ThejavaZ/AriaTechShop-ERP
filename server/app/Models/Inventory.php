@@ -61,6 +61,35 @@ class Inventory extends Model
             ->paginate(10);
     }
 
+    public static function buscar(
+        ?string $search   = null,
+        ?string $category = null,
+        string  $sort     = 'name',
+        string  $order    = 'asc'
+    ) {
+        $sortAllowed  = ['name', 'category', 'price', 'stock'];
+        $orderAllowed = ['asc', 'desc'];
+
+        $sort  = in_array($sort,  $sortAllowed)  ? $sort  : 'name';
+        $order = in_array($order, $orderAllowed) ? $order : 'asc';
+
+        return self::select('id', 'name', 'category', 'price', 'stock', 'min_stock')
+            ->when($search,   fn($q) => $q->where('name', 'like', "%{$search}%"))
+            ->when($category, fn($q) => $q->where('category', $category))
+            ->orderBy($sort, $order)
+            ->paginate(10)
+            ->withQueryString();
+    }
+
+    public static function obtenerCategorias(): array
+    {
+        return self::select('category')
+            ->distinct()
+            ->orderBy('category')
+            ->pluck('category')
+            ->toArray();
+    }
+
     public static function actualizarProducto(int $id, array $datos): self
     {
         $producto = self::findOrFail($id);
