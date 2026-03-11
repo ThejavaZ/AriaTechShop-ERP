@@ -1,6 +1,7 @@
 "use client"; // Lo hacemos client component para manejar los filtros de estado
 
 import { useState } from "react";
+import { useCartStore } from "@/store/useCartStore";
 
 // 1. Mock de Datos (Simulando lo que vendrá de Laravel/PostgreSQL)
 const PRODUCTS_MOCK = [
@@ -62,6 +63,8 @@ const PRODUCTS_MOCK = [
 
 export default function ProductsPage() {
   const [filter, setFilter] = useState("Todos");
+
+  const addToCart = useCartStore((state) => state.addToCart);
 
   const filteredProducts =
     filter === "Todos"
@@ -160,6 +163,7 @@ export default function ProductsPage() {
                   </span>
                   <button
                     disabled={product.stock === 0}
+                    onClick={() => addToCart()}
                     className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${
                       product.stock === 0
                         ? "bg-slate-100 text-slate-400 cursor-not-allowed"
