@@ -31,7 +31,7 @@ export default function Header() {
               Inicio
             </Link>
             <Link
-              href="/productos"
+              href="/products"
               className="text-gray-700 hover:text-blue-600 transition"
             >
               Productos
