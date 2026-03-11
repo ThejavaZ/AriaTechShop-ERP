@@ -28,4 +28,15 @@ class SaleController extends Controller
         Sale::destroy($id);
         return response()->json(['message' => 'Venta eliminada']);
     }
+
+    public function salesChart()
+{
+    $sales = \DB::table('sales')
+        ->selectRaw('DATE(sale_date) as date, COUNT(*) as total')
+        ->groupBy('date')
+        ->orderBy('date')
+        ->get();
+
+    return response()->json($sales);
+}
 }
