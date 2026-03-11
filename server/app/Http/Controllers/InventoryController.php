@@ -29,11 +29,17 @@ class InventoryController extends Controller
             ->with('success', 'Producto registrado correctamente');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $products = Inventory::listar();
+        $search   = $request->input('search');
+        $category = $request->input('category');
+        $sort     = $request->input('sort', 'name');
+        $order    = $request->input('order', 'asc');
 
-        return view('inventory.index', compact('products'));
+        $products   = Inventory::buscar($search, $category, $sort, $order);
+        $categories = Inventory::obtenerCategorias();
+
+        return view('inventory.index', compact('products', 'categories', 'search', 'category', 'sort', 'order'));
     }
 
     public function edit(int $id)
