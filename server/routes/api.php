@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\NotificationController;
 Route::middleware('auth:sanctum')->group(function(){
     Route::resource('/', ApiUserController::class);
     Route::apiResource('sales', SaleController::class);
+    Route::get('/sales/chart', [SaleController::class, 'salesChart']);
 
 });
 Route::prefix('notifications')->group(function () {
@@ -30,3 +31,5 @@ Route::prefix('repairs')->group(function () {
     Route::post('/{id}/change-status', [RepairController::class, 'changeStatus']);
     Route::post('/{id}/send-survey', [RepairController::class, 'sendSurvey']);
 });
+
+
