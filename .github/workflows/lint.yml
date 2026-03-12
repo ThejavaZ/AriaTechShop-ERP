@@ -15,4 +15,4 @@
           with:
             node-version: '18'
         - run: npm install eslint@8 --save-dev
-        - run: npx --yes eslint@8 server/resources/js/ --no-eslintrc --env es6 --rule '{"no-unused-vars":"error","no-var":"error"}'
+        - run: npx eslint server/resources/js/
