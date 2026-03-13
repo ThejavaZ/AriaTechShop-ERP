@@ -9,10 +9,33 @@
                 </a>
 
                 <a class="nav-link" href="{{ route('users') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-dollar"></i></div>
+                    Ventas
+                </a>
+
+                <a class="nav-link" href="{{ route('users') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-boxes-stacked"></i></div>
+                    Inventarios
+                </a>
+
+                <a class="nav-link" href="{{ route('users') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-wrench"></i></div>
+                    Reparaciones
+                </a>
+
+                <a class="nav-link" href="{{ route('users') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-barcode"></i></div>
+                    Productos
+                </a>
+
+                @if (Auth::user()->role == 1)
+                <a class="nav-link" href="{{ route('users') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                     Usuarios
                 </a>
-                {{-- <div class="sb-sidenav-menu-heading">Interface</div>
+                @endif
+
+                <div class="sb-sidenav-menu-heading">Interface</div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Layouts
@@ -65,10 +88,10 @@
                     Tables
                 </a>
             </div>
-        </div> --}}
-        {{-- <div class="sb-sidenav-footer">
+        </div>
+        <div class="sb-sidenav-footer">
             <div class="small">Logged in as:</div>
-            Start Bootstrap
-        </div> --}}
+            {{ Auth::user()->name }}
+        </div>
     </nav>
 </div>

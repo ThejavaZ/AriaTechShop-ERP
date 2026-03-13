@@ -9,6 +9,7 @@
         <title>@yield('title', 'Sin titulo') - Aria TechShop</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="css/styles.css" rel="stylesheet" />
+        <link rel="shortcut icon" href="logo.png" type="image/x-icon">
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>

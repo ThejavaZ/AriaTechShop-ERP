@@ -84,6 +84,15 @@
                                 @case(2)
                                     Operador
                                     @break
+                                @case(3)
+                                    Repartidores
+                                    @break
+                                @case(4)
+                                    Vendedores
+                                    @break
+                                @case(5)
+                                    Cliente
+                                    @break
                                 @default
                                     No Info
                             @endswitch
