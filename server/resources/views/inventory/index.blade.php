@@ -17,6 +17,9 @@
             <a href="{{ route('inventory.create') }}" class="btn btn-primary btn-sm">
                 <i class="fas fa-plus"></i> Nuevo Producto
             </a>
+            <a href="{{ route('inventory.report') }}" class="btn btn-secondary btn-sm me-1">
+                <i class="fas fa-file-alt"></i> Reporte
+            </a>
         </div>
     </div>
 
