@@ -112,4 +112,13 @@ class Inventory extends Model
     {
         return $this->stock <= $this->min_stock;
     }
+
+    public static function obtenerParaReporte(?string $category = null, bool $soloStockBajo = false)
+    {
+        return self::select('id', 'name', 'category', 'price', 'stock', 'min_stock')
+            ->when($category,      fn($q) => $q->where('category', $category))
+            ->when($soloStockBajo, fn($q) => $q->whereColumn('stock', '<=', 'min_stock'))
+            ->orderBy('name')
+            ->get();
+    }
 }
