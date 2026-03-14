@@ -1,6 +1,9 @@
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
 [build]
   command = "pnpm build"
   publish = ".next"
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+  base = "client"
