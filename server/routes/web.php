@@ -75,8 +75,10 @@ Route::get('/sales-chart', [SaleController::class, 'chartView'])->name('sales.ch
 
 
 
+
 // Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
 // Route::get('/sales', [SaleController::class, 'index']);
+
 
 });
 
