@@ -2,16 +2,53 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Mail, Lock, ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation"; // Para redirigir después del login
+import { Mail, Lock, ArrowRight, Loader2 } from "lucide-react";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const setAuth = useAuthStore((state) => state.setAuth);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Iniciando sesión con:", { email, password });
-    // Aquí conectaremos con Laravel próximamente
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch("http://127.0.0.1:8000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Credenciales incorrectas");
+      }
+
+      // 🔐 Guardamos el token y el usuario (puedes mover esto a Zustand después)
+      setAuth(data.user, data.access_token);
+
+      localStorage.setItem("aria_token", data.access_token);
+      localStorage.setItem("aria_user", JSON.stringify(data.user));
+      // Redirigimos al catálogo o inicio
+      router.push("/");
+      router.refresh();
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -26,6 +63,12 @@ export default function LoginPage() {
           </p>
         </div>
 
+        {error && (
+          <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm font-medium rounded-r-xl">
+            {error}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Email */}
           <div>
@@ -37,7 +80,8 @@ export default function LoginPage() {
               <input
                 type="email"
                 required
-                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                disabled={loading}
+                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition disabled:opacity-50"
                 placeholder="tu@ejemplo.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -55,7 +99,8 @@ export default function LoginPage() {
               <input
                 type="password"
                 required
-                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                disabled={loading}
+                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition disabled:opacity-50"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -73,9 +118,16 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full bg-slate-900 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-blue-600 transition-all active:scale-95"
+            disabled={loading}
+            className="w-full bg-slate-900 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-blue-600 transition-all active:scale-95 disabled:bg-slate-400"
           >
-            Iniciar Sesión <ArrowRight size={20} />
+            {loading ? (
+              <Loader2 className="animate-spin" size={20} />
+            ) : (
+              <>
+                Iniciar Sesión <ArrowRight size={20} />
+              </>
+            )}
           </button>
         </form>
 
