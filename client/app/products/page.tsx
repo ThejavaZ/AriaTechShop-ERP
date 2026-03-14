@@ -1,75 +1,46 @@
-"use client"; // Lo hacemos client component para manejar los filtros de estado
+"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCartStore } from "@/store/useCartStore";
-
-// 1. Mock de Datos (Simulando lo que vendrá de Laravel/PostgreSQL)
-const PRODUCTS_MOCK = [
-  {
-    id: 1,
-    name: "NVIDIA RTX 4080 Super",
-    category: "GPU",
-    price: 1199,
-    stock: 5,
-    image: "🎮",
-    tag: "Nuevo",
-  },
-  {
-    id: 2,
-    name: "MacBook Pro M3 Max",
-    category: "Laptops",
-    price: 3499,
-    stock: 0,
-    image: "💻",
-    tag: "Agotado",
-  },
-  {
-    id: 3,
-    name: "Logitech G Pro X Superlight",
-    category: "Periféricos",
-    price: 149,
-    stock: 15,
-    image: "🖱️",
-    tag: "Popular",
-  },
-  {
-    id: 4,
-    name: 'Monitor ASUS ROG 27"',
-    category: "Monitores",
-    price: 699,
-    stock: 8,
-    image: "🖥️",
-    tag: "Nuevo",
-  },
-  {
-    id: 5,
-    name: "Intel Core i9-14900K",
-    category: "Componentes",
-    price: 589,
-    stock: 12,
-    image: "💾",
-    tag: null,
-  },
-  {
-    id: 6,
-    name: "Teclado Keychron Q1",
-    category: "Periféricos",
-    price: 169,
-    stock: 3,
-    image: "⌨️",
-    tag: "Oferta",
-  },
-];
+import { api } from "@/utils/api";
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [filter, setFilter] = useState("Todos");
+  const [loading, setLoading] = useState(true);
 
   const addToCart = useCartStore((state) => state.addToCart);
 
+  // Carga inicial de datos
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const [prodData, catData] = await Promise.all([
+        api("products"),
+        api("categories"),
+      ]);
+
+      if (prodData) setProducts(prodData);
+      if (catData) setCategories(catData);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  // Filtrado lógico (usando el objeto categoría de Laravel)
   const filteredProducts =
     filter === "Todos"
-      ? PRODUCTS_MOCK
-      : PRODUCTS_MOCK.filter((p) => p.category === filter);
+      ? products
+      : products.filter((p: any) => p.category?.name === filter);
+
+  if (loading)
+    return (
+      <div className="p-10 text-center font-bold">
+        Cargando Hardware de Aria...
+      </div>
+    );
 
   return (
     <div className="flex flex-col md:flex-row gap-8">
@@ -78,96 +49,76 @@ export default function ProductsPage() {
         <div>
           <h2 className="text-lg font-bold mb-4 border-b pb-2">Categorías</h2>
           <nav className="flex flex-col gap-2">
-            {[
-              "Todos",
-              "Laptops",
-              "GPU",
-              "Periféricos",
-              "Monitores",
-              "Componentes",
-            ].map((cat) => (
+            <button
+              onClick={() => setFilter("Todos")}
+              className={`text-left px-3 py-2 rounded-lg transition ${
+                filter === "Todos"
+                  ? "bg-blue-600 text-white"
+                  : "text-slate-600 hover:bg-slate-100"
+              }`}
+            >
+              Todos
+            </button>
+            {categories.map((cat: any) => (
               <button
-                key={cat}
-                onClick={() => setFilter(cat)}
+                key={cat.id}
+                onClick={() => setFilter(cat.name)}
                 className={`text-left px-3 py-2 rounded-lg transition ${
-                  filter === cat
-                    ? "bg-blue-600 text-white shadow-md"
+                  filter === cat.name
+                    ? "bg-blue-600 text-white"
                     : "text-slate-600 hover:bg-slate-100"
                 }`}
               >
-                {cat}
+                {cat.name}
               </button>
             ))}
           </nav>
-        </div>
-
-        <div className="p-4 bg-blue-50 rounded-xl border border-blue-100">
-          <p className="text-xs text-blue-800 font-medium uppercase mb-2">
-            Soporte Aria
-          </p>
-          <p className="text-xs text-blue-600 leading-tight">
-            ¿Buscas una pieza específica? Contáctanos.
-          </p>
         </div>
       </aside>
 
       {/* --- GRID DE PRODUCTOS --- */}
       <main className="flex-1">
-        <div className="flex justify-between items-end mb-8">
-          <div>
-            <h1 className="text-3xl font-black text-slate-900">
-              Catálogo de Hardware
-            </h1>
-            <p className="text-slate-500">
-              Mostrando {filteredProducts.length} resultados
-            </p>
-          </div>
-        </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProducts.map((product) => (
+          {filteredProducts.map((product: any) => (
             <div
               key={product.id}
-              className="group relative bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-2xl hover:border-blue-300 transition-all duration-300"
+              className="group relative bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-2xl transition-all"
             >
-              {/* Badge Dinámico */}
-              {product.tag && (
-                <span
-                  className={`absolute top-3 left-3 z-10 px-2 py-1 text-[10px] font-bold uppercase rounded ${
-                    product.tag === "Agotado"
-                      ? "bg-red-500 text-white"
-                      : "bg-blue-600 text-white"
-                  }`}
-                >
-                  {product.tag}
+              {/* Badge Dinámico (Basado en stock real) */}
+              {product.stock === 0 && (
+                <span className="absolute top-3 left-3 z-10 px-2 py-1 text-[10px] font-bold uppercase rounded bg-red-500 text-white">
+                  Agotado
                 </span>
               )}
 
-              {/* Imagen Placeholder */}
-              <div className="aspect-square bg-slate-50 flex items-center justify-center text-6xl group-hover:scale-110 transition-transform duration-500">
-                {product.image}
+              {/* Imagen: Usamos el image_url de la DB o un emoji por defecto */}
+              <div className="aspect-square bg-slate-50 flex items-center justify-center text-6xl">
+                {product.image_url ? (
+                  <img src={product.image_url} alt={product.name} />
+                ) : (
+                  "📦"
+                )}
               </div>
 
-              {/* Info del Producto */}
               <div className="p-5">
                 <p className="text-xs font-bold text-blue-600 uppercase mb-1">
-                  {product.category}
+                  {product.category?.name || "General"}
                 </p>
-                <h3 className="text-slate-800 font-bold text-lg mb-4 line-clamp-1">
+                <h3 className="text-slate-800 font-bold text-lg mb-4">
                   {product.name}
                 </h3>
 
                 <div className="flex items-center justify-between mt-auto">
                   <span className="text-2xl font-black text-slate-900">
-                    ${product.price.toLocaleString()}
+                    ${parseFloat(product.price).toLocaleString()}
                   </span>
                   <button
                     disabled={product.stock === 0}
-                    onClick={() => addToCart()}
+                    onClick={() => addToCart(product)} // Ahora pasamos el objeto real
                     className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${
                       product.stock === 0
-                        ? "bg-slate-100 text-slate-400 cursor-not-allowed"
-                        : "bg-slate-900 text-white hover:bg-blue-600 active:scale-95"
+                        ? "bg-slate-100 text-slate-400"
+                        : "bg-slate-900 text-white hover:bg-blue-600"
                     }`}
                   >
                     {product.stock === 0 ? "Sin Stock" : "Agregar"}

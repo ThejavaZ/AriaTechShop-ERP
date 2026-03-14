@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -12,7 +13,33 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::where('is_active', 1)->get();
+
+        if($users){
+            $list = [];
+
+            foreach($users as $user){
+                $object = [
+                    'message' => [
+                        'code' => 202,
+                        'message' => 'All users'
+                    ],
+                    'id' => $user->id,
+                ];
+
+                array_push($list, $object);
+            }
+            return response()->json($list);
+        }
+
+        else{
+            $object = [
+                'code' => 404,
+                'message' => "No info"
+            ];
+
+            return response()->json($object);
+        }
     }
 
     /**
