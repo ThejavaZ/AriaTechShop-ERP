@@ -11,7 +11,7 @@
 
 @section('content')
 
-<div>
+{{-- <div>
     <a href="{{ route('sales.create') }}" class="btn btn-outline-primary">
         <i class="fas fa-plus"></i>
     </a>
@@ -30,7 +30,7 @@
         </div>
 
     </div>
-</div>
+</div> --}}
 
 <div class="card mb-4">
     <div class="card-header">
@@ -104,7 +104,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script>
+{{-- <script>
 
 fetch("{{ route('sales.chart.data') }}")
 .then(response => response.json())
@@ -133,7 +133,7 @@ fetch("{{ route('sales.chart.data') }}")
 
 });
 
-</script>
+</script> --}}
 
 
 @endsection
