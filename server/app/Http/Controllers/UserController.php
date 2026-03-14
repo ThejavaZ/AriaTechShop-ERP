@@ -67,4 +67,15 @@ class UserController extends Controller
     {
         //
     }
+
+    public function usersChart()
+{
+    $users = \DB::table('users')
+        ->selectRaw('DATE(created_at) as date, COUNT(*) as total')
+        ->groupBy('date')
+        ->orderBy('date')
+        ->get();
+
+    return response()->json($users);
+}
 }
