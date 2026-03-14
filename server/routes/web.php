@@ -19,7 +19,13 @@ Route::middleware('auth')->group(function () {
     # --- End Home Section --- #
 
     # --- User Section --- #
+
     Route::get('/users', [UserController::class, 'index'])->name('users');
+
+    Route::get('/users',[UserController::class, 'index'])->name('users');
+    Route::get('/users-chart-data', [UserController::class, 'usersChart'])
+    ->name('users.chart.data');
+
     # --- End User Section --- #
 
     # --- Inventory Section --- #
