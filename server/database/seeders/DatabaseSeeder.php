@@ -14,26 +14,20 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-   public function run(): void
-{
-    // 1. Primero crear el usuario admin
-    $admin = User::factory()->create([
-        'name' => 'admin',
-        'email' => 'admin@ariatechshop.com',
-        'password' => Hash::make('password'),
-        'role' => 1,
-        'language' => 1,
-        'status' => 1,
-        'is_active' => 1
-    ]);
-
-    // 2. Luego roles y permisos
-    $this->call([
-    RolesAndPermissionsSeeder::class,  // solo clases aquí
-    RepairSeeder::class,
-    ]);
-
-    // 3. Asignar rol al admin
-    $admin->assignRole('admin');
-} 
+    public function run(): void
+    {
+        // User::factory(10)->create();
+        $this->call([
+            RepairSeeder::class,
+        ]);
+        User::factory()->create([
+            'name' => 'admin',
+            'email' => 'admin@ariatechshop.com',
+            'password' => Hash::make('password'),
+            'role' => 1,
+            'language' => 1,
+            'status' => 1,
+            'is_active' => 1
+        ]);
+    }
 }
