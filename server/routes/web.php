@@ -22,28 +22,17 @@ Route::middleware('auth')->group(function () {
     # --- End User Section --- #
 
     # --- Inventory Section --- #
-    Route::get('/inventory', [InventoryController::class, 'index'])
-        ->middleware('can:inventory.view')
-        ->name('inventory.index');
-    Route::get('/inventory/create', [InventoryController::class, 'create'])
-        ->middleware('can:inventory.create')
-        ->name('inventory.create');
-    Route::post('/inventory', [InventoryController::class, 'store'])
-        ->middleware('can:inventory.create')
-        ->name('inventory.store');
-    Route::get('/inventory/{id}/edit', [InventoryController::class, 'edit'])
-        ->middleware('can:inventory.update')
-        ->name('inventory.edit');
-    Route::put('/inventory/{id}', [InventoryController::class, 'update'])
-        ->middleware('can:inventory.update')
-        ->name('inventory.update');
-    Route::get('/inventory/restock', [InventoryController::class, 'restock'])
-        ->middleware('can:inventory.restock')
-        ->name('inventory.restock');
-    Route::post('/inventory/restock', [InventoryController::class, 'storeRestock'])
-        ->middleware('can:inventory.restock')
-        ->name('inventory.storeRestock');
-
+    Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
+    Route::get('/inventory/create', [InventoryController::class, 'create'])->name('inventory.create');
+    Route::post('/inventory', [InventoryController::class, 'store'])->name('inventory.store');
+    Route::get('/inventory/restock', [InventoryController::class, 'restock'])->name('inventory.restock');
+    Route::post('/inventory/restock', [InventoryController::class, 'storeRestock'])->name('inventory.storeRestock');
+    Route::get('/inventory/report', [InventoryController::class, 'report'])->name('inventory.report');
+    Route::get('/inventory/report/pdf', [InventoryController::class, 'exportPdf'])->name('inventory.report.pdf');
+    Route::get('/inventory/report/excel', [InventoryController::class, 'exportExcel'])->name('inventory.report.excel');
+    Route::get('/inventory/report/word', [InventoryController::class, 'exportWord'])->name('inventory.report.word');
+    Route::get('/inventory/{id}/edit', [InventoryController::class, 'edit'])->name('inventory.edit');
+    Route::put('/inventory/{id}', [InventoryController::class, 'update'])->name('inventory.update');
     #-- Repairs section --#
     Route::get('/repairs', RepairsList::class)->name('repairs.index');
 
