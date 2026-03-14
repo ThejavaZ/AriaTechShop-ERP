@@ -46,11 +46,13 @@ Route::middleware('auth')->group(function(){
     #-- sales section --#
 
 Route::resource('sales', SaleController::class);
+
 Route::get('/sales-chart-data', [SaleController::class, 'salesChart'])
     ->name('sales.chart.data');
+    
 Route::get('/sales-chart', [SaleController::class, 'chartView'])->name('sales.chart');
-Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
-Route::get('/sales', [SaleController::class, 'index']);
+// Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
+// Route::get('/sales', [SaleController::class, 'index']);
 });
 
 
