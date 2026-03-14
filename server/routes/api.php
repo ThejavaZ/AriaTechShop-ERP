@@ -10,9 +10,12 @@ use App\Http\Controllers\Api\NotificationController;
 Route::middleware('auth:sanctum')->group(function(){
     Route::resource('/', ApiUserController::class);
     Route::apiResource('sales', SaleController::class);
-    Route::get('/sales/chart', [SaleController::class, 'salesChart']);
+    // Route::get('/sales/chart', [SaleController::class, 'salesChart']);
 
 });
+
+Route::get('/sales/chart', [SaleController::class, 'salesChart']);
+
 Route::prefix('notifications')->group(function () {
     Route::post('/send-email', [NotificationController::class, 'sendEmail']);
     Route::post('/send-welcome', [NotificationController::class, 'sendWelcome']);

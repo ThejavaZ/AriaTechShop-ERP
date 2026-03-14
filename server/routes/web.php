@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
  use App\Livewire\Repairs\RepairsList;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\SaleController;
 
 Route::get('/auth/login',[AuthController::class, 'login'])->name('login');
 Route::post('/auth/store',[AuthController::class, 'store'])->name('auth.store');
@@ -39,4 +40,16 @@ Route::middleware('auth')->group(function(){
 
     
     # --- End Inventory Section --- #
+
+    #-- sales section --#
+
+Route::resource('sales', SaleController::class);
+Route::get('/sales-chart-data', [SaleController::class, 'salesChart'])
+    ->name('sales.chart.data');
+Route::get('/sales-chart', [SaleController::class, 'chartView'])->name('sales.chart');
+Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
+Route::get('/sales', [SaleController::class, 'index']);
 });
+
+
+
