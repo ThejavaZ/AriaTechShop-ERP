@@ -15,12 +15,14 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie','login','register'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://ariatechshop.netlify.app','http://localhost:3000'],
-
+    'allowed_origins' => [
+        'https://ariatechshop.netlify.app',
+        'http://localhost:3000'
+    ],
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
