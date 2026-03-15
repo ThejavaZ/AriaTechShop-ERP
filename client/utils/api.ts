@@ -1,16 +1,27 @@
-export const api = async (url: string) => {
+// lib/api.ts
+export const api = async (endpoint: string, options: RequestInit = {}) => {
   try {
-    // Agregamos http y el prefijo /api
-    const res = await fetch(`http://localhost:8000/api/${url}`, {
-      cache: "no-store", // Para que siempre traiga datos frescos del ERP
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+
+    const res = await fetch(`${baseUrl}${endpoint}`, {
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        ...options.headers,
+      },
+      cache: "no-store",
     });
 
     const data = await res.json();
 
-    if (!data.success) return null;
-    return data.data;
+    if (!res.ok) {
+      return { error: true, errors: data.errors, message: data.message };
+    }
+
+    return { error: false, data: data.data || data };
   } catch (error) {
-    console.error("Error consumiendo la API de Aria:", error);
-    return null;
+    console.error("Error en API:", error);
+    return { error: true, message: "Error de conexión" };
   }
 };
