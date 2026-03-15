@@ -8,27 +8,27 @@
                     Dashboard
                 </a>
 
-                <a class="nav-link" href="{{ route('users') }}">
+                <a class="nav-link" href="">
+                    <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                    Inventarios
+                </a>
+
+                <a class="nav-link" href="">
+                    <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                    Ventas
+                </a>
+
+                <a class="nav-link" href="">
                     <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                     Usuarios
                 </a>
 
-                <a class="nav-link" href="{{ route('users') }}">
+                <a class="nav-link" href="">
                     <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                     Usuarios
                 </a>
 
-                <a class="nav-link" href="{{ route('users') }}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                    Usuarios
-                </a>
-
-                <a class="nav-link" href="{{ route('users') }}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                    Usuarios
-                </a>
-
-                <a class="nav-link" href="{{ route('users') }}">
+                <a class="nav-link" href="">
                     <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                     Usuarios
                 </a>
