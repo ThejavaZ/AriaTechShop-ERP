@@ -1,12 +1,13 @@
-// next.config.ts
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["lucide-react"], // Aprovechando que la usas
+  transpilePackages: ["lucide-react"],
+  // turbo va afuera de experimental
+  turbo: {
+    root: "..",
+  },
   experimental: {
-    turbo: {
-      root: process.cwd(), // O prueba con process.cwd() si no funciona
-    },
+    // Aquí puedes dejar otras cosas, pero NO turbo
   },
 };
 
