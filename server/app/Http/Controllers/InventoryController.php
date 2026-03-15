@@ -32,4 +32,59 @@ class InventoryController extends Controller
         $products = Inventory::listar();
         return view('inventory.index', compact('products'));
     }
+
+        public function edit(int $id)
+    {
+        $product = Inventory::findOrFail($id);
+        return view('inventory.edit', compact('product'));
+    }
+
+    public function updatePrice(Request $request, int $id)
+    {
+        $request->validate([
+            'price' => 'required|numeric|min:0'
+        ]);
+
+        Inventory::actualizarPrecio($id, $request->price);
+
+        return redirect()->route('inventory.index')
+                        ->with('success', 'Precio actualizado correctamente');
+    }
+
+        public function restock()
+    {
+        $products = Inventory::all();
+        return view('inventory.restock', compact('products'));
+    }
+
+    public function storeRestock(Request $request)
+    {
+        $request->validate([
+            'inventory_id' => 'required|exists:inventories,id',
+            'cantidad' => 'required|integer|min:1'
+        ]);
+
+        Inventory::registrarRestock($request->inventory_id, $request->cantidad);
+
+        return redirect()->route('inventory.index')
+                        ->with('success', 'Restock registrado correctamente');
+    }
+
+        public function adjustStock(int $id)
+    {
+        $product = Inventory::findOrFail($id);
+        return view('inventory.adjust-stock', compact('product'));
+    }
+
+    public function storeAdjustStock(Request $request, int $id)
+    {
+        $request->validate([
+            'stock' => 'required|integer|min:0'
+        ]);
+
+        Inventory::ajustarStock($id, $request->stock);
+
+        return redirect()->route('inventory.index')
+                        ->with('success', 'Stock ajustado correctamente');
+    }
 }

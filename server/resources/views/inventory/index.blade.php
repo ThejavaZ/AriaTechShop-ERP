@@ -10,9 +10,14 @@
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <span><i class="fas fa-boxes me-1"></i> Lista de Productos</span>
-            <a href="{{ route('inventory.create') }}" class="btn btn-primary btn-sm">
-                <i class="fas fa-plus"></i> Nuevo Producto
-            </a>
+            <div>
+                <a href="{{ route('inventory.restock') }}" class="btn btn-success btn-sm me-1">
+                    <i class="fas fa-plus"></i> Restock
+                </a>
+                <a href="{{ route('inventory.create') }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus"></i> Nuevo Producto
+                </a>
+            </div>
         </div>
         <div class="card-body">
             @if($products->isEmpty())
@@ -25,6 +30,7 @@
                             <th>Categoría</th>
                             <th>Precio</th>
                             <th>Stock</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,6 +40,14 @@
                                 <td>{{ $product->category }}</td>
                                 <td>${{ number_format($product->price, 2) }}</td>
                                 <td>{{ $product->stock }}</td>
+                                <td>
+                                    <a href="{{ route('inventory.edit', $product->id) }}" class="btn btn-warning btn-sm">
+                                        <i class="fas fa-edit"></i> Editar Precio
+                                    </a>
+                                    <a href="{{ route('inventory.adjustStock', $product->id) }}" class="btn btn-info btn-sm">
+                                        <i class="fas fa-sliders-h"></i> Ajustar Stock
+                                    </a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
