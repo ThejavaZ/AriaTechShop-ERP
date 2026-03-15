@@ -13,16 +13,26 @@ export default function ProductsPage() {
   const addToCart = useCartStore((state) => state.addToCart);
 
   // Carga inicial de datos
+  // Carga inicial de datos
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const [prodData, catData] = await Promise.all([
-        api("products"),
+
+      // Recuerda que ahora api() devuelve { error, data }
+      const [prodRes, catRes] = await Promise.all([
+        api("products"), // Asegúrate que el endpoint sea correcto
         api("categories"),
       ]);
 
-      if (prodData) setProducts(prodData);
-      if (catData) setCategories(catData);
+      // Solo actualizamos si no hubo error y hay data
+      if (prodRes && !prodRes.error) {
+        setProducts(prodRes.data);
+      }
+
+      if (catRes && !catRes.error) {
+        setCategories(catRes.data); // <--- AQUÍ: Pasamos el array real
+      }
+
       setLoading(false);
     };
 
@@ -59,19 +69,20 @@ export default function ProductsPage() {
             >
               Todos
             </button>
-            {categories.map((cat: any) => (
-              <button
-                key={cat.id}
-                onClick={() => setFilter(cat.name)}
-                className={`text-left px-3 py-2 rounded-lg transition ${
-                  filter === cat.name
-                    ? "bg-blue-600 text-white"
-                    : "text-slate-600 hover:bg-slate-100"
-                }`}
-              >
-                {cat.name}
-              </button>
-            ))}
+            {Array.isArray(categories) &&
+              categories.map((cat: any) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setFilter(cat.name)}
+                  className={`text-left px-3 py-2 rounded-lg transition ${
+                    filter === cat.name
+                      ? "bg-blue-600 text-white"
+                      : "text-slate-600 hover:bg-slate-100"
+                  }`}
+                >
+                  {cat.name}
+                </button>
+              ))}
           </nav>
         </div>
       </aside>
