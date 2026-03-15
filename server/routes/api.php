@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
 });
 
-Route::get('/sales/chart', [SaleController::class, 'salesChart']);
+// Route::get('/sales/chart', [SaleController::class, 'salesChart']);
 
 Route::prefix('notifications')->group(function () {
     Route::post('/send-email', [NotificationController::class, 'sendEmail']);
