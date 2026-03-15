@@ -1,9 +1,9 @@
+[build]
+  command = "pnpm build"
+  publish = ".next" # AQUÍ ESTÁ EL TRUCO: Sin el 'client/'
+  base = "client"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-[build]
-  command = "pnpm build"
-  publish = ".next"
-  base = "client"
