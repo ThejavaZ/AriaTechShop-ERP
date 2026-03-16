@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Repairs\RepairsList;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\SaleDetailController;
 
 Route::get('/auth/login', [AuthController::class, 'login'])->name('login');
 Route::post('/auth/store', [AuthController::class, 'store'])->name('auth.store');
@@ -64,23 +65,33 @@ Route::middleware('auth')->group(function () {
 
 
 
-    #-- sales section --#
+# --- SALES --- #
+    Route::resource('sales', SaleController::class);
 
-Route::resource('sales', SaleController::class);
+    Route::get('/sales-report', [SaleController::class,'report'])
+        ->name('sales.report');
 
-Route::get('/sales-chart-data', [SaleController::class, 'salesChart'])
-    ->name('sales.chart.data');
-    
-Route::get('/sales-chart', [SaleController::class, 'chartView'])->name('sales.chart');
+    Route::get('/sales-chart', [SaleController::class, 'chartView'])
+        ->name('sales.chart');
 
+    Route::get('/sales-chart-data', [SaleController::class, 'salesChart'])
+        ->name('sales.chart.data');
 
+    Route::get('/sales-report/excel', [SaleController::class, 'exportExcel'])
+    ->name('sales.report.excel');
+    # --- SALE DETAILS --- #
+    Route::resource('sale_details', SaleDetailController::class);
 
+    Route::get('/sale-details-report', [SaleDetailController::class,'report'])
+        ->name('sale_details.report');
 
-// Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
-// Route::get('/sales', [SaleController::class, 'index']);
-
+    Route::get('/sale-details-report/excel', [SaleDetailController::class, 'exportExcel'])
+    ->name('sale_details.report.excel');
 
 });
+
+
+
 
 
 

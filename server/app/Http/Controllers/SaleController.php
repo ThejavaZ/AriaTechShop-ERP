@@ -2,58 +2,69 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Sale;
-use Illuminate\Support\Facades\DB;
+use App\Exports\SalesExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SaleController extends Controller
 {
+
     public function index()
     {
-        $sales = Sale::with('details')->get();
+        $sales = Sale::latest()->get();
+
         return view('sales.index', compact('sales'));
     }
 
-    public function show($id)
+public function show($id)
+{
+    $sale = Sale::with('details')->findOrFail($id);
+
+    return view('sales.show', compact('sale'));
+}
+
+    public function edit($id)
     {
-        return Sale::with('details')->findOrFail($id);
+        $sale = Sale::findOrFail($id);
+
+        return view('sales.edit', compact('sale'));
     }
 
-    public function store(Request $request)
-    {
-        // Validación básica
-        $validated = $request->validate([
-            'sale_date' => 'required|date',
-        ]);
+public function update(Request $request, $id)
+{
+    $sale = Sale::findOrFail($id);
 
-        $sale = Sale::create($validated);
+    $sale->customer_name = $request->customer_name;
+    $sale->customer_phone = $request->customer_phone;
+    $sale->customer_email = $request->customer_email;
+    $sale->total_amount = $request->total_amount;
 
-        return response()->json($sale, 201);
-    }
+    $sale->save();
+
+    return redirect()->route('sales.index')
+        ->with('success', 'Venta actualizada');
+}
 
     public function destroy($id)
     {
-        Sale::destroy($id);
+        $sale = Sale::findOrFail($id);
 
-        return response()->json([
-            'message' => 'Venta eliminada correctamente'
-        ]);
+        $sale->delete();
+
+        return redirect()->route('sales.index')
+            ->with('success', 'Venta eliminada');
     }
 
-    public function salesChart()
+    public function report()
     {
-        $sales = DB::table('sales')
-            ->selectRaw('DATE(sale_date) as date, COUNT(*) as total')
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
+        $sales = Sale::all();
 
-        return response()->json($sales);
+        return view('sales.report', compact('sales'));
     }
 
-    public function chartView()
-    {
-        return view('sales.chart');
-    }
+    public function exportExcel()
+{
+    return Excel::download(new SalesExport, 'sales_report.xlsx');
+}
 }

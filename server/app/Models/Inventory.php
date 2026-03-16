@@ -121,4 +121,9 @@ class Inventory extends Model
             ->orderBy('name')
             ->get();
     }
+
+    public function saleDetails()
+{
+    return $this->hasMany(SaleDetail::class);
+}
 }

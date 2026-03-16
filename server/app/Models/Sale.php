@@ -19,7 +19,6 @@ class Sale extends Model
         'payment_method'
     ];
 
-    // Conversión automática de tipos
     protected $casts = [
         'sale_date' => 'datetime',
         'subtotal' => 'decimal:2',
@@ -27,11 +26,11 @@ class Sale extends Model
         'total_amount' => 'decimal:2'
     ];
 
-    /**
-     * Relación: una venta tiene muchos detalles
-     */
-    public function details(): HasMany
+    // Relación con detalles de venta
+    public function details()
     {
-        return $this->hasMany(SaleDetail::class);
-    }
+        return $this->hasMany(\App\Models\SaleDetail::class, 'sale_id');
+     }
+
+    
 }
