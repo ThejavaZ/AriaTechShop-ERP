@@ -2,8 +2,9 @@
 export const api = async (endpoint: string, options: RequestInit = {}) => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+    const url = `${baseUrl?.replace(/\/$/, "")}/${endpoint.replace(/^\//, "")}`;
 
-    const res = await fetch(`${baseUrl}${endpoint}`, {
+    const res = await fetch(url, {
       ...options,
       headers: {
         "Content-Type": "application/json",
