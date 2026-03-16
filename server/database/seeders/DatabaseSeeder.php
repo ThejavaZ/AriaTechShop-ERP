@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
         $this->call([
             RepairSeeder::class,
+            SaleSeeder::class,
         ]);
         User::factory()->create([
             'name' => 'admin',
