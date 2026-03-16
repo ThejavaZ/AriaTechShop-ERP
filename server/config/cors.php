@@ -22,6 +22,13 @@ return [
     'allowed_origins' => ['http://localhost:3000',
                          'https://ariatechshop.netlify.app', 
                       ],
+
+    'allowed_origins' => [
+                         'https://ariatechshop.netlify.app',  // frontend producción
+                        'http://localhost:3000',            
+],
+    'supports_credentials' => true,        // cookies
+
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
