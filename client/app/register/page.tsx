@@ -3,6 +3,10 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+<<<<<<< HEAD
+=======
+import { api } from "@/utils/api";
+>>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
 import {
   Mail,
   Lock,
@@ -29,13 +33,17 @@ export default function RegisterPage() {
     setLoading(true);
     setErrors(null);
 
+<<<<<<< HEAD
     // Validación básica en el cliente
+=======
+>>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
     if (formData.password !== formData.password_confirmation) {
       setErrors({ password: ["Las contraseñas no coinciden"] });
       setLoading(false);
       return;
     }
 
+<<<<<<< HEAD
     try {
       const res = await fetch("http://127.0.0.1:8000/api/register", {
         method: "POST",
@@ -68,6 +76,22 @@ export default function RegisterPage() {
     } finally {
       setLoading(false);
     }
+=======
+    // ¡USANDO TU FUNCIÓN CENTRALIZADA!
+    const response = await api("/register", {
+      method: "POST",
+      body: JSON.stringify(formData),
+    });
+
+    if (response.error) {
+      setErrors(response.errors); // Aquí Laravel te manda el error de "email ya tomado", etc.
+      setLoading(false);
+      return;
+    }
+
+    alert("¡Cuenta creada con éxito!");
+    router.push("/login");
+>>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
   };
 
   return (

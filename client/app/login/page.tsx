@@ -5,6 +5,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation"; // Para redirigir después del login
 import { Mail, Lock, ArrowRight, Loader2 } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
+<<<<<<< HEAD
+=======
+import { api } from "@/utils/api";
+>>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -20,6 +24,7 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
+<<<<<<< HEAD
     try {
       const res = await fetch("http://127.0.0.1:8000/api/login", {
         method: "POST",
@@ -49,6 +54,35 @@ export default function LoginPage() {
     } finally {
       setLoading(false);
     }
+=======
+    // 🚀 Usamos tu nueva utilidad api
+    const response = await api("login", {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (response.error) {
+      // Si Laravel devuelve errores de validación (errors), podrías mostrarlos más específicos
+      setError(response.message || "Error al iniciar sesión");
+      setLoading(false);
+      return;
+    }
+
+    // Si todo salió bien, la data está en response.data
+    const { user, access_token } = response.data;
+
+    // 🔐 Actualizamos el estado global (Zustand)
+    setAuth(user, access_token);
+
+    // Guardamos en LocalStorage para persistencia
+    localStorage.setItem("aria_token", access_token);
+    localStorage.setItem("aria_user", JSON.stringify(user));
+
+    // Redirigimos
+    router.push("/");
+    router.refresh();
+    setLoading(false);
+>>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
   };
 
   return (

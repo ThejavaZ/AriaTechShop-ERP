@@ -13,6 +13,7 @@ export default function ProductsPage() {
   const addToCart = useCartStore((state) => state.addToCart);
 
   // Carga inicial de datos
+<<<<<<< HEAD
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -23,6 +24,28 @@ export default function ProductsPage() {
 
       if (prodData) setProducts(prodData);
       if (catData) setCategories(catData);
+=======
+  // Carga inicial de datos
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+
+      // Recuerda que ahora api() devuelve { error, data }
+      const [prodRes, catRes] = await Promise.all([
+        api("products"), // Asegúrate que el endpoint sea correcto
+        api("categories"),
+      ]);
+
+      // Solo actualizamos si no hubo error y hay data
+      if (prodRes && !prodRes.error) {
+        setProducts(prodRes.data);
+      }
+
+      if (catRes && !catRes.error) {
+        setCategories(catRes.data); // <--- AQUÍ: Pasamos el array real
+      }
+
+>>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
       setLoading(false);
     };
 
@@ -59,6 +82,7 @@ export default function ProductsPage() {
             >
               Todos
             </button>
+<<<<<<< HEAD
             {categories.map((cat: any) => (
               <button
                 key={cat.id}
@@ -72,6 +96,22 @@ export default function ProductsPage() {
                 {cat.name}
               </button>
             ))}
+=======
+            {Array.isArray(categories) &&
+              categories.map((cat: any) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setFilter(cat.name)}
+                  className={`text-left px-3 py-2 rounded-lg transition ${
+                    filter === cat.name
+                      ? "bg-blue-600 text-white"
+                      : "text-slate-600 hover:bg-slate-100"
+                  }`}
+                >
+                  {cat.name}
+                </button>
+              ))}
+>>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
           </nav>
         </div>
       </aside>

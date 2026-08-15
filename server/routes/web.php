@@ -20,14 +20,10 @@ Route::middleware('auth')->group(function () {
     # --- End Home Section --- #
 
     # --- User Section --- #
-
     Route::get('/users', [UserController::class, 'index'])->name('users');
-
-    Route::get('/users',[UserController::class, 'index'])->name('users');
 
     Route::get('/users-chart-data', [UserController::class, 'usersChart'])
     ->name('users.chart.data');
-
     # --- End User Section --- #
 
     # --- Inventory Section --- #
@@ -42,10 +38,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/inventory/report/word', [InventoryController::class, 'exportWord'])->name('inventory.report.word');
     Route::get('/inventory/{id}/edit', [InventoryController::class, 'edit'])->name('inventory.edit');
     Route::put('/inventory/{id}', [InventoryController::class, 'update'])->name('inventory.update');
+    
     #-- Repairs section --#
     Route::get('/repairs', RepairsList::class)->name('repairs.index');
-
-
 
     Route::get('/users/create',[UserController::class, 'create'])->name('users.create');
     Route::get('/users/{id}',[UserController::class, 'show'])->name('users.show');
@@ -58,14 +53,9 @@ Route::middleware('auth')->group(function () {
     ->withoutMiddleware('auth'); //temporal
     Route::post('/inventory', [InventoryController::class, 'store'])->name('inventory.store')
     ->withoutMiddleware('auth'); //temporal
-
-
     # --- End Inventory Section --- #
 
-
-
-
-# --- SALES --- #
+    # --- SALES --- #
     Route::resource('sales', SaleController::class);
 
     Route::get('/sales-report', [SaleController::class,'report'])
@@ -79,6 +69,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/sales-report/excel', [SaleController::class, 'exportExcel'])
     ->name('sales.report.excel');
+
     # --- SALE DETAILS --- #
     Route::resource('sale_details', SaleDetailController::class);
 
@@ -89,10 +80,3 @@ Route::middleware('auth')->group(function () {
     ->name('sale_details.report.excel');
 
 });
-
-
-
-
-
-
-
