@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
@@ -34,7 +35,7 @@ Route::middleware('auth')->group(function(){
     Route::patch('/inventory/{id}/price', [InventoryController::class, 'updatePrice'])->name('inventory.updatePrice');
     Route::get('/inventory/{id}/adjust-stock', [InventoryController::class, 'adjustStock'])->name('inventory.adjustStock');
     Route::patch('/inventory/{id}/adjust-stock', [InventoryController::class, 'storeAdjustStock'])->name('inventory.storeAdjustStock');
-
+    Route::middleware('auth')->get('/inventory/audit-log', [AuditLogController::class, 'index'])->name('inventory.audit-log');
     #-- Repairs section --#
     Route::get('/repairs', RepairsList::class)->name('repairs.index');
 
