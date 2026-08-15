@@ -29,10 +29,15 @@ class AuthController extends Controller
         if ($user && Hash::check($data['password'], $user->password)) {
             Auth::login($user, $remember);
 
+            // Generamos un token de acceso para la API (Sanctum)
+            $token = $user->createToken('auth_token')->plainTextToken;
+
             // Retornamos respuesta exitosa para tu API
             return response()->json([
                 'message' => 'Login exitoso',
-                'user' => $user
+                'user' => $user,
+                'access_token' => $token,
+                'token_type' => 'Bearer'
             ], 200);
         }
 
@@ -67,18 +72,21 @@ class AuthController extends Controller
 
         Auth::login($user);
 
+        // Generamos un token de acceso para la API (Sanctum)
+        $token = $user->createToken('auth_token')->plainTextToken;
+
         return response()->json([
             'message' => 'Usuario registrado con éxito',
-            'user' => $user
+            'user' => $user,
+            'access_token' => $token,
+            'token_type' => 'Bearer'
         ], 201);
     }
 
     public function logout(Request $request)
     {
-        Auth::logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        // Revocamos el token actual de Sanctum en lugar de la sesión
+        $request->user()?->currentAccessToken()?->delete();
 
         return response()->json(['message' => 'Sesión cerrada correctamente']);
     }

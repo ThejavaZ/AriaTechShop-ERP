@@ -4,11 +4,15 @@ export const api = async (endpoint: string, options: RequestInit = {}) => {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL;
     const url = `${baseUrl?.replace(/\/$/, "")}/${endpoint.replace(/^\//, "")}`;
 
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("aria_token") : null;
+
     const res = await fetch(url, {
       ...options,
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...options.headers,
       },
       cache: "no-store",
