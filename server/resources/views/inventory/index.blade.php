@@ -11,6 +11,9 @@
         <div class="card-header d-flex justify-content-between align-items-center">
             <span><i class="fas fa-boxes me-1"></i> Lista de Productos</span>
             <div>
+                <a href="{{ route('inventory.movements') }}" class="btn btn-info btn-sm me-1">
+                    <i class="fas fa-exchange-alt"></i> Movimientos
+                </a>
                 <a href="{{ route('inventory.restock') }}" class="btn btn-success btn-sm me-1">
                     <i class="fas fa-plus"></i> Restock
                 </a>
@@ -20,7 +23,7 @@
             </div>
         </div>
         <div class="card-body">
-            @if($products->isEmpty())
+            @if ($products->isEmpty())
                 <p class="text-center text-muted">No hay productos registrados aún.</p>
             @else
                 <table class="table table-bordered table-striped">
@@ -34,7 +37,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($products as $product)
+                        @foreach ($products as $product)
                             <tr>
                                 <td>{{ $product->name }}</td>
                                 <td>{{ $product->category }}</td>
@@ -44,7 +47,8 @@
                                     <a href="{{ route('inventory.edit', $product->id) }}" class="btn btn-warning btn-sm">
                                         <i class="fas fa-edit"></i> Editar Precio
                                     </a>
-                                    <a href="{{ route('inventory.adjustStock', $product->id) }}" class="btn btn-info btn-sm">
+                                    <a href="{{ route('inventory.adjustStock', $product->id) }}"
+                                        class="btn btn-info btn-sm">
                                         <i class="fas fa-sliders-h"></i> Ajustar Stock
                                     </a>
                                 </td>

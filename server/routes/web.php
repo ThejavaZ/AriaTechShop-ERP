@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
  use App\Livewire\Repairs\RepairsList;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\InventoryMovementController;
 use App\Http\Controllers\SaleController;
 
 Route::get('/auth/login',[AuthController::class, 'login'])->name('login');
@@ -35,6 +36,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/inventory/{id}/adjust-stock', [InventoryController::class, 'adjustStock'])->name('inventory.adjustStock');
     Route::patch('/inventory/{id}/adjust-stock', [InventoryController::class, 'storeAdjustStock'])->name('inventory.storeAdjustStock');
 
+
+    Route::get('/inventory/movements', [InventoryMovementController::class, 'index'])->name('inventory.movements');
     #-- Repairs section --#
     Route::get('/repairs', RepairsList::class)->name('repairs.index');
 

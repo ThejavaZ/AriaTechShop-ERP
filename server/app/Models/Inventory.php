@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Services\InventoryMovementLogger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
 class Inventory extends Model
 {
-    use HasFactory; 
+    use HasFactory;
 
     protected $fillable = [
         'name',
@@ -18,14 +19,13 @@ class Inventory extends Model
         'description'
     ];
 
-        protected static function booted()
+    protected static function booted()
     {
         static::created(function ($inventory) {
             Log::info('Producto registrado en inventario: ' . $inventory->name);
         });
 
         static::updated(function ($inventory) {
-
             if ($inventory->wasChanged('price')) {
                 Log::info('Precio actualizado', [
                     'producto_id' => $inventory->id,
@@ -44,7 +44,7 @@ class Inventory extends Model
                 ->paginate(10);
     }
 
-        public static function actualizarPrecio(int $id, float $precio): self
+    public static function actualizarPrecio(int $id, float $precio): self
     {
         $producto = self::findOrFail($id);
         $producto->price = $precio;
@@ -57,14 +57,23 @@ class Inventory extends Model
         $producto = self::findOrFail($id);
         $producto->stock += $cantidad;
         $producto->save();
+
+        InventoryMovementLogger::log($producto->id, 'entrada', $cantidad, 'Restock');
+
         return $producto;
     }
 
-        public static function ajustarStock(int $id, int $cantidad): self
+    public static function ajustarStock(int $id, int $cantidad): self
     {
         $producto = self::findOrFail($id);
+        $stockAnterior = $producto->stock;
         $producto->stock = $cantidad;
         $producto->save();
+
+        $diferencia = $cantidad - $stockAnterior;
+
+        InventoryMovementLogger::log($producto->id, 'ajuste', $diferencia, "Ajuste manual de {$stockAnterior} a {$cantidad}");
+
         Log::info('Stock ajustado manualmente: ' . $producto->name . ' → ' . $cantidad . ' unidades');
         return $producto;
     }
