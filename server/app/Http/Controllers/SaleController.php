@@ -9,20 +9,21 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class SaleController extends Controller
 {
-
     public function index()
     {
-        $sales = Sale::latest()->get();
+        $sales = Sale::with('details')
+            ->latest()
+            ->get();
 
         return view('sales.index', compact('sales'));
     }
 
-public function show($id)
-{
-    $sale = Sale::with('details')->findOrFail($id);
+    public function show($id)
+    {
+        $sale = Sale::with('details')->findOrFail($id);
 
-    return view('sales.show', compact('sale'));
-}
+        return view('sales.show', compact('sale'));
+    }
 
     public function edit($id)
     {
@@ -31,20 +32,20 @@ public function show($id)
         return view('sales.edit', compact('sale'));
     }
 
-public function update(Request $request, $id)
-{
-    $sale = Sale::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        $sale = Sale::findOrFail($id);
 
-    $sale->customer_name = $request->customer_name;
-    $sale->customer_phone = $request->customer_phone;
-    $sale->customer_email = $request->customer_email;
-    $sale->total_amount = $request->total_amount;
+        $sale->customer_name = $request->customer_name;
+        $sale->customer_phone = $request->customer_phone;
+        $sale->customer_email = $request->customer_email;
+        $sale->total_amount = $request->total_amount;
 
-    $sale->save();
+        $sale->save();
 
-    return redirect()->route('sales.index')
-        ->with('success', 'Venta actualizada');
-}
+        return redirect()->route('sales.index')
+            ->with('success', 'Venta actualizada');
+    }
 
     public function destroy($id)
     {
@@ -64,7 +65,7 @@ public function update(Request $request, $id)
     }
 
     public function exportExcel()
-{
-    return Excel::download(new SalesExport, 'sales_report.xlsx');
-}
+    {
+        return Excel::download(new SalesExport, 'sales_report.xlsx');
+    }
 }
