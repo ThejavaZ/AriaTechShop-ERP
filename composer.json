@@ -1,0 +1,14 @@
+{
+    "require": {
+        "spatie/laravel-permission": "^7.2"
+    },
+    "require-dev": {
+        "pestphp/pest": "^4.4",
+        "pestphp/pest-plugin-laravel": "^4.1"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
