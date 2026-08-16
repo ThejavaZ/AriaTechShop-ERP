@@ -16,7 +16,9 @@ return [
     |
     */
 
-    'default' => 'mariadb', // Temporalmente forzado a MySQL
+    //'default' => 'mariadb', // Temporalmente forzado a MySQL
+
+    'default' => env('DB_CONNECTION', 'sqlite'),
 
     /*
     |--------------------------------------------------------------------------

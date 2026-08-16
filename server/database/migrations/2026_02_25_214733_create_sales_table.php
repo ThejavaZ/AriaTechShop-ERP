@@ -16,7 +16,7 @@ return new class extends Migration
         $table->id();
 
         $table->string('invoice_number')->unique();
-        $table->dateTime('sale_date');
+        $table->dateTime('sale_date')->index();
 
         // Customer data
         $table->string('customer_name');

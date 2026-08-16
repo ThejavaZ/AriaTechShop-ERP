@@ -29,7 +29,9 @@
 
     <!-- Contenido principal -->
     <main class="max-w-7xl mx-auto py-6">
-        {{ $slot }}
+
+        {{-- {{ $slot }} --}}
+       @yield('content')
     </main>
 
     @livewireScripts
