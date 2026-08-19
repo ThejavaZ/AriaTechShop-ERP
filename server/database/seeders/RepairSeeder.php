@@ -4,32 +4,54 @@ namespace Database\Seeders;
 
 use App\Models\Repair;
 use App\Models\RepairStatusHistory;
-use App\Models\User;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class RepairSeeder extends Seeder
 {
     public function run(): void
     {
-        // Crear usuarios técnicos si no existen
-        $technician1 = User::firstOrCreate(
-            ['email' => 'tecnico1@ariatech.com'],
+        Role::firstOrCreate(['name' => 'tecnico', 'guard_name' => 'web']);
+        // Lista de técnicos para el taller
+        $technicians = [
             [
-                'name' => 'Carlos Técnico',
-                'password' => bcrypt('password'),
-            ]
-        );
+                'name' => 'Carlos Mendoza',
+                'email' => 'carlos.mendoza@ariatechshop.com',
+                'password' => Hash::make('password123'),
+            ],
+            [
+                'name' => 'Ana Sofía Garza',
+                'email' => 'ana.garza@ariatechshop.com',
+                'password' => Hash::make('password123'),
+            ],
+            [
+                'name' => 'Luis Fernando Torres',
+                'email' => 'luis.torres@ariatechshop.com',
+                'password' => Hash::make('password123'),
+            ],
+            [
+                'name' => 'María José Valenzuela',
+                'email' => 'maria.valenzuela@ariatechshop.com',
+                'password' => Hash::make('password123'),
+            ],
+        ]; // <-- Corregido: aquí debe ser corchete y punto y coma
+        foreach ($technicians as $techData) {
+        $technician = User::firstOrCreate(
+        ['email' => $techData['email']],
+        [
+            'name' => $techData['name'],
+            'password' => $techData['password'],
+        ]
+    );
 
-        $technician2 = User::firstOrCreate(
-            ['email' => 'tecnico2@ariatech.com'],
-            [
-                'name' => 'María Técnico',
-                'password' => bcrypt('password'),
-            ]
-        );
+    if (!$technician->hasRole('tecnico')) {
+        $technician->assignRole('tecnico');
+    }
 
         // Crear reparaciones en diferentes estados
-        
+
         // 5 Pendientes
         Repair::factory(5)->pending()->create()->each(function ($repair) {
             RepairStatusHistory::create([
@@ -118,6 +140,7 @@ class RepairSeeder extends Seeder
             ]);
         });
 
-        $this->command->info('✅ Se crearon ' . Repair::count() . ' reparaciones con su historial');
+        $this->command->info('✅ Se crearon '.Repair::count().' reparaciones con su historial');
     }
+}
 }

@@ -5,12 +5,12 @@ namespace App\Livewire\Repairs;
 use App\Models\Repair;
 use App\Models\RepairStatusHistory;
 use App\Services\EmailApiService;
-use Livewire\Component;
-use Livewire\WithPagination;
-use Livewire\Attributes\Title;
-use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 #[Title('Reparaciones')]
 #[Layout('layouts.app')]
@@ -20,34 +20,55 @@ class RepairsList extends Component
 
     // Filtros y búsqueda
     public $search = '';
+
     public $statusFilter = '';
+
     public $sortField = 'created_at';
+
     public $sortDirection = 'desc';
 
     // Modal crear
     public $showCreateModal = false;
+
     public $customer_name = '';
+
     public $customer_email = '';
+
     public $customer_phone = '';
+
     public $device_type = '';
+
     public $brand = '';
+
     public $model = '';
+
     public $serial_number = '';
+
     public $issue_description = '';
+
     public $estimated_cost = '';
+
     public $estimated_delivery = '';
 
     // Modal detalles
     public $showDetailModal = false;
+
     public $selectedRepair = null;
+
+    public $newTechnicianId = null;
+
+    public $technicians = [];
 
     // Cambio de estado
     public $newStatus = '';
+
     public $statusChangeNotes = '';
+
     public $showStatusChangeSuccess = false;
 
     // Modal eliminar
     public $showDeleteModal = false;
+
     public $repairToDelete = null;
 
     protected $queryString = [
@@ -109,6 +130,17 @@ class RepairsList extends Component
         $this->resetForm();
     }
 
+    public function updateTechnician()
+    {
+        $this->selectedRepair->update([
+            'assigned_to' => $this->newTechnicianId ?: null,
+        ]);
+
+        $this->selectedRepair->refresh()->load('technician');
+
+        session()->flash('success', 'Técnico actualizado correctamente.');
+    }
+
     public function createRepair()
     {
         $this->validate();
@@ -118,6 +150,7 @@ class RepairsList extends Component
 
             $repair = Repair::create([
                 'repair_number' => Repair::generateRepairNumber(),
+
                 'customer_name' => $this->customer_name,
                 'customer_email' => $this->customer_email,
                 'customer_phone' => $this->customer_phone,
@@ -142,10 +175,10 @@ class RepairsList extends Component
 
             // Enviar correo de registro al cliente
             try {
-                $emailService = new EmailApiService();
+                $emailService = new EmailApiService;
                 $emailService->sendRegistrationEmail($repair);
             } catch (\Exception $e) {
-                Log::warning('No se pudo enviar correo de registro: ' . $e->getMessage());
+                Log::warning('No se pudo enviar correo de registro: '.$e->getMessage());
             }
 
             DB::commit();
@@ -156,7 +189,7 @@ class RepairsList extends Component
 
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Error al crear reparación: ' . $e->getMessage());
+            Log::error('Error al crear reparación: '.$e->getMessage());
             session()->flash('error', 'Error al crear la reparación.');
         }
     }
@@ -168,6 +201,8 @@ class RepairsList extends Component
         $this->selectedRepair = Repair::with(['technician', 'statusHistory.user'])
             ->findOrFail($repairId);
         $this->newStatus = $this->selectedRepair->status;
+        $this->newTechnicianId = $this->selectedRepair->assigned_to;
+        $this->technicians = \App\Models\User::role('tecnico')->get();
         $this->statusChangeNotes = '';
         $this->showStatusChangeSuccess = false;
         $this->showDetailModal = true;
@@ -186,7 +221,7 @@ class RepairsList extends Component
 
     public function updateStatus()
     {
-        if (!$this->selectedRepair) {
+        if (! $this->selectedRepair) {
             return;
         }
 
@@ -198,6 +233,7 @@ class RepairsList extends Component
         // Evitar guardar si el estado es el mismo
         if ($this->newStatus === $this->selectedRepair->status) {
             $this->addError('newStatus', 'El estado seleccionado es igual al actual.');
+
             return;
         }
 
@@ -222,10 +258,10 @@ class RepairsList extends Component
 
             // Enviar correo de notificación al cliente
             try {
-                $emailService = new EmailApiService();
+                $emailService = new EmailApiService;
                 $emailService->sendStatusChangeEmail($this->selectedRepair, $previousStatus, $this->newStatus);
             } catch (\Exception $e) {
-                Log::warning('No se pudo enviar correo de cambio de estado: ' . $e->getMessage());
+                Log::warning('No se pudo enviar correo de cambio de estado: '.$e->getMessage());
             }
 
             DB::commit();
@@ -239,7 +275,7 @@ class RepairsList extends Component
 
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Error al cambiar estado: ' . $e->getMessage());
+            Log::error('Error al cambiar estado: '.$e->getMessage());
             $this->addError('newStatus', 'Error al actualizar el estado. Intenta de nuevo.');
         }
     }
@@ -270,7 +306,7 @@ class RepairsList extends Component
             $this->resetPage();
 
         } catch (\Exception $e) {
-            Log::error('Error al eliminar reparación: ' . $e->getMessage());
+            Log::error('Error al eliminar reparación: '.$e->getMessage());
             session()->flash('error', 'Error al eliminar la reparación.');
         }
     }
@@ -298,12 +334,12 @@ class RepairsList extends Component
             ->with(['technician'])
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
-                    $q->where('repair_number', 'like', '%' . $this->search . '%')
-                        ->orWhere('customer_name', 'like', '%' . $this->search . '%')
-                        ->orWhere('customer_email', 'like', '%' . $this->search . '%')
-                        ->orWhere('device_type', 'like', '%' . $this->search . '%')
-                        ->orWhere('brand', 'like', '%' . $this->search . '%')
-                        ->orWhere('model', 'like', '%' . $this->search . '%');
+                    $q->where('repair_number', 'like', '%'.$this->search.'%')
+                        ->orWhere('customer_name', 'like', '%'.$this->search.'%')
+                        ->orWhere('customer_email', 'like', '%'.$this->search.'%')
+                        ->orWhere('device_type', 'like', '%'.$this->search.'%')
+                        ->orWhere('brand', 'like', '%'.$this->search.'%')
+                        ->orWhere('model', 'like', '%'.$this->search.'%');
                 });
             })
             ->when($this->statusFilter, function ($query) {
