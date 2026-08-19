@@ -97,7 +97,7 @@
                     </svg>
                 </div>
                 <input wire:model.live.debounce.300ms="search" type="text"
-                    placeholder="Buscar por número, cliente, dispositivo..."
+                    placeholder="Buscar por número, cliente, dispositivo, técnico..."
                     class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
             </div>
         </div>

@@ -8,8 +8,6 @@
 
 @section('content')
 
-<<<<<<< HEAD
-=======
 {{-- @if(auth()->user()->role == 1)
 
 <div class="card mb-4">
@@ -27,7 +25,6 @@
 
 @endif --}}
 
->>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
 <div class="row">
     <div class="col-xl-3 col-md-6">
         <div class="card bg-primary text-white mb-4">
@@ -68,31 +65,18 @@
 </div>
 
 @if(auth()->user()->role == 1)
-<<<<<<< HEAD
-=======
-
->>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
 <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-chart-line me-1"></i>
         Usuarios registrados por fecha
     </div>
-<<<<<<< HEAD
-    <div class="card-body">
-        <div class="chart-container" style="position: relative; width: 100%; max-width: 800px; height: 400px;">
-=======
 
     <div class="card-body">
         <div style="width:600px;height:300px;">
->>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
             <canvas id="usersChart"></canvas>
         </div>
     </div>
 </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
 @endif
 
 <div class="row">
@@ -160,23 +144,11 @@
 fetch("{{ route('users.chart.data') }}")
 .then(response => response.json())
 .then(data => {
-<<<<<<< HEAD
-=======
-
->>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
     const labels = data.map(item => item.date);
     const totals = data.map(item => item.total);
 
     const ctx = document.getElementById('usersChart').getContext('2d');
 
-<<<<<<< HEAD
-    // Gradiente para el fondo
-    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-    gradient.addColorStop(0, 'rgba(78,115,223,0.5)');
-    gradient.addColorStop(1, 'rgba(78,115,223,0)');
-
-=======
->>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
     new Chart(ctx, {
         type: 'line',
         data: {
@@ -185,7 +157,6 @@ fetch("{{ route('users.chart.data') }}")
                 label: 'Usuarios registrados',
                 data: totals,
                 borderColor: '#4e73df',
-<<<<<<< HEAD
                 backgroundColor: gradient,
                 borderWidth: 3,
                 tension: 0.4,
@@ -193,18 +164,11 @@ fetch("{{ route('users.chart.data') }}")
                 pointHoverRadius: 7,
                 pointBackgroundColor: '#fff',
                 pointBorderColor: '#4e73df',
-=======
-                backgroundColor: 'rgba(78,115,223,0.1)',
-                borderWidth: 3,
-                tension: 0.4,
-                pointRadius: 5,
->>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
                 fill: true
             }]
         },
         options: {
             responsive: true,
-<<<<<<< HEAD
             animation: {
                 duration: 1000,
                 easing: 'easeOutQuart'
@@ -245,17 +209,3 @@ fetch("{{ route('users.chart.data') }}")
 </script>
 
 @endsection
-=======
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-});
-</script>
-
-@endsection
->>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc

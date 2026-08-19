@@ -29,6 +29,7 @@
 
     <!-- Contenido principal -->
     <main class="max-w-7xl mx-auto py-6">
+         @livewire('repairs.repairs-list')
 
         {{-- {{ $slot }} --}}
        @yield('content')
