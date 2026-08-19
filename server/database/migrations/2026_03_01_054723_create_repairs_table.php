@@ -47,7 +47,7 @@ return new class extends Migration
             $table->date('delivered_at')->nullable();
             
             // Control
-            $table->foreignId('assigned_to')->nullable()->constrained('users')->nullOnDelete(); // Técnico asignado
+            $table->foreignId('assigned_to')->nullable()->constrained('users')->nullOnDelete(); // Técnico 1nado
             $table->boolean('customer_notified')->default(false);
             $table->timestamp('last_notification_at')->nullable();
             
