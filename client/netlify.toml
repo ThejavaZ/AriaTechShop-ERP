@@ -1,0 +1,21 @@
+<<<<<<< HEAD
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[build]
+  command = "pnpm build"
+  publish = ".next"
+  base = "client"
+=======
+[build]
+  command = "pnpm build"
+  publish = ".next" # AQUÍ ESTÁ EL TRUCO: Sin el 'client/'
+  base = "client"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+>>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
