@@ -1,22 +1,22 @@
 <?php
 
-use App\Http\Controllers\Api\UserController as ApiUserController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use iluminate\Support\Facades\DB;
 
-use App\Http\Controllers\SaleController;
+
+// --- TUS CONTROLADORES (CORREGIDOS) ---
+use App\Http\Controllers\Api\UserController as ApiUserController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CategoryController;
 
 // --- CONTROLADORES DE TUS COMPAÑEROS ---
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SaleDetailController;
 
 use App\Http\Controllers\Api\NotificationController;
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\CategoryController;
-use App\Http\Controllers\Api\ProductController;
-
-Route::post('/login', [AuthController::class, 'login']);
+use App\Http\Controllers\Api\ProductController;Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('/products', [ProductController::class, 'index']);
@@ -44,9 +44,16 @@ Route::get('/categories', [CategoryController::class, 'index']);
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth:sanctum')->group(function(){
+    Route::resource('/', ApiUserController::class);
+    // Route::apiResource('sales', SaleController::class);
+    // Route::get('/sales/chart', [SaleController::class, 'salesChart']);
     Route::resource('users', ApiUserController::class);
     Route::apiResource('sales', SaleController::class);
+
 });
+
+// Route::get('/sales/chart', [SaleController::class, 'salesChart']);
+
 
 /*
 |--------------------------------------------------------------------------

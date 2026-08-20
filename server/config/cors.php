@@ -1,7 +1,5 @@
 <?php
-
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Cross-Origin Resource Sharing (CORS) Configuration
@@ -15,23 +13,29 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie','login','register'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
 
+
+    'allowed_origins' => ['http://localhost:3000',
+                         'https://ariatechshop.netlify.app', 
+                      ],
+
     'allowed_origins' => [
-        'https://ariatechshop.netlify.app',
-        'http://localhost:3000'
-    ],
+                         'https://ariatechshop.netlify.app',  // frontend producción
+                        'http://localhost:3000',            
+],
+    'supports_credentials' => true,        // cookies
+
+
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
-
     'exposed_headers' => [],
 
     'max_age' => 0,
 
-    'supports_credentials' => true,
-
+    'supports_credentials' => false,
 
 ];
