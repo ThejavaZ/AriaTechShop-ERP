@@ -1,12 +1,7 @@
-<?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-<<<<<<< HEAD
 use Illuminate\Database\Eloquent\Relations\HasMany;
-=======
->>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
 
 class Sale extends Model
 {
@@ -22,7 +17,6 @@ class Sale extends Model
         'payment_method'
     ];
 
-<<<<<<< HEAD
     protected $casts = [
         'sale_date' => 'datetime',
         'subtotal' => 'decimal:2',
@@ -36,11 +30,9 @@ class Sale extends Model
         return $this->hasMany(\App\Models\SaleDetail::class, 'sale_id');
      }
 
-    
-=======
+
     public function details()
     {
         return $this->hasMany(SaleDetail::class);
     }
->>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
 }

@@ -20,6 +20,7 @@ class RepairsList extends Component
 
     // Filtros y búsqueda
     public $search = '';
+    
 
     public $statusFilter = '';
 
@@ -56,6 +57,7 @@ class RepairsList extends Component
     public $selectedRepair = null;
 
     public $newTechnicianId = null;
+    
 
     public $technicians = [];
 
@@ -339,7 +341,10 @@ class RepairsList extends Component
                         ->orWhere('customer_email', 'like', '%'.$this->search.'%')
                         ->orWhere('device_type', 'like', '%'.$this->search.'%')
                         ->orWhere('brand', 'like', '%'.$this->search.'%')
-                        ->orWhere('model', 'like', '%'.$this->search.'%');
+                        ->orWhere('model', 'like', '%'.$this->search.'%')
+                        ->orWhereHas('technician', function ($tq) {
+                            $tq->where('name', 'like', '%'.$this->search.'%');
+                        });
                 });
             })
             ->when($this->statusFilter, function ($query) {
