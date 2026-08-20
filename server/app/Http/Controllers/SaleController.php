@@ -1,3 +1,7 @@
+<?php
+
+namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\Sale;
 use App\Exports\SalesExport;
@@ -41,7 +45,7 @@ public function update(Request $request, $id)
     {
         $sale = Sale::findOrFail($id);
         $sale->delete();
-	@@ -71,18 +54,6 @@
+            return redirect()->route('sales.index')
             ->with('success', 'Venta eliminada');
     }
 
@@ -69,5 +73,4 @@ public function chartView()
     return view('sales.chart');
 }
 
-}
 }
