@@ -5,7 +5,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation"; // Para redirigir después del login
 import { Mail, Lock, ArrowRight, Loader2 } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
+<<<<<<< HEAD
+=======
 import { api } from "@/utils/api";
+>>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -21,6 +24,37 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
+<<<<<<< HEAD
+    try {
+      const res = await fetch("http://127.0.0.1:8000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Credenciales incorrectas");
+      }
+
+      // 🔐 Guardamos el token y el usuario (puedes mover esto a Zustand después)
+      setAuth(data.user, data.access_token);
+
+      localStorage.setItem("aria_token", data.access_token);
+      localStorage.setItem("aria_user", JSON.stringify(data.user));
+      // Redirigimos al catálogo o inicio
+      router.push("/");
+      router.refresh();
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+=======
     // 🚀 Usamos tu nueva utilidad api
     const response = await api("login", {
       method: "POST",
@@ -48,6 +82,7 @@ export default function LoginPage() {
     router.push("/");
     router.refresh();
     setLoading(false);
+>>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
   };
 
   return (

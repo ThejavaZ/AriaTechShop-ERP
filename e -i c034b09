@@ -1,0 +1,61 @@
+[33mc40eb95[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mtest/lint-error[m[33m, [m[1;31morigin/test/lint-error[m[33m)[m fix: remove linting errors
+[33m31a7f15[m ci: add es6 env to eslint config
+[33m38ee74b[m fix: correct linting errors in test file
+[33mde42f6c[m fix: remove file with linting errors
+[33mba35f2e[m test: add linting errors file
+[33m252518f[m test: add file with linting errors
+[33m965017b[m ci: downgrade to eslint v8 to fix permission issue
+[33me5f367d[m ci: fix yaml syntax in eslint command
+[33md829f89[m ci: target test-error.js directly with eslint rules
+[33m8ae0e50[m ci: use direct path to eslint binary
+[33m054f22f[m ci: use npx to run eslint directly
+[33mb1f08ae[m ci: add lint script to root package.json
+[33m2bcd7ae[m fix: remove test-error file to pass linting
+[33m89fff29[m ci: fix workflow to trigger on all branches
+[33m2626e7f[m test: provocar error de linting
+[33mc034b09[m[33m ([m[1;31morigin/dev[m[33m, [m[1;32mdev[m[33m)[m Merge pull request #65 from ThejavaZ/feat/inv-07-stock-minimo
+[33ma742c14[m feat(inv): agregar control de stock mínimo
+[33m08e7f4a[m Merge pull request #59 from ThejavaZ/feature/repairs-email-integration
+[33m62097ab[m[33m ([m[1;31morigin/feature/repairs-email-integration[m[33m, [m[1;32mfeature/repairs-email-integration[m[33m)[m feat: add repair module with email notifications via Resend API
+[33m9e06cee[m Merge pull request #54 from ThejavaZ/task/migration-repairs
+[33m77cf070[m[33m ([m[1;31morigin/task/migration-repairs[m[33m, [m[1;32mtask/migration-repairs[m[33m)[m Feature/migration-repairs
+[33ma3d5942[m[33m ([m[1;32mmain[m[33m)[m Merge pull request #49 from ThejavaZ/feat/13-inventory-ajustar-stock-manualmente
+[33ma137949[m feat(inventory): ajustar stock manualmente de producto en inventario
+[33m5c6ae85[m Merge pull request #48 from ThejavaZ/feat/14-inventory-registrar-entrada-mercancia
+[33m7c16691[m feat(inventory): registrar restock de mercancia en inventario
+[33m247e041[m Merge pull request #45 from ThejavaZ/chore/44-db-respaldo-restauracion-scripts
+[33m85dc4ad[m Merge pull request #47 from ThejavaZ/feat/12-inventory-actualizar-precio-producto
+[33m76e6500[m feat(inventory): actualizar precio de producto
+[33m9c911c7[m Merge branch 'dev' into feat/12-inventory-actualizar-precio-producto
+[33m3acb448[m Merge pull request #46 from ThejavaZ/main
+[33m6d4d67b[m Merge branch 'main' into feat/12-inventory-actualizar-precio-producto
+[33mff59759[m chore(db): agregar scripts de respaldo y restauracion de base de datos
+[33mea60e5c[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge pull request #43 from ThejavaZ/feat/15-inventory-consultar-productos
+[33m0afe018[m[33m ([m[1;31morigin/feat/15-inventory-consultar-productos[m[33m)[m feat(inventory): consultar lista de productos en inventario
+[33m15c6f22[m Merge pull request #42 from ThejavaZ/feat/11-inventory-registrar-producto
+[33me7eecf1[m[33m ([m[1;31morigin/feat/11-inventory-registrar-producto[m[33m)[m feat(inventory): registrar nuevo producto en tabla inventories
+[33m8ef1ff9[m Merge pull request #41 from ThejavaZ/feature/ven-04-sales-controller
+[33m9e33e92[m[33m ([m[1;31morigin/feature/ven-04-sales-controller[m[33m)[m feat(VEN-04): crear controlador y rutas API para Sales
+[33mb59fbfc[m docs: agregar plantilla de Pull Request
+[33mb7916dc[m Merge pull request #38 from ThejavaZ/feat/4-sales-registrar-venta
+[33mf8a630f[m[33m ([m[1;31morigin/feat/4-sales-registrar-venta[m[33m)[m create sales and sale_details table migration
+[33me8f747e[m feat(inventory): create inventories table migration
+[33md93b980[m feat(inventory): feat(inventory): create inventories table migration
+[33m9c3ef51[m Merge pull request #36 from ThejavaZ/dev
+[33mf1e303c[m[33m ([m[1;31morigin/35-feat-feat1-login-logout-api[m[33m)[m feat/1-login-logout-users-table;feat/2-api-instalation
+[33m0fdb41f[m Merge pull request #34 from ThejavaZ/dev
+[33m1f3092f[m Feat: Se inserto la plantilla del UI, Se inserto la ruta de los users
+[33m36bd2aa[m Se instalo el readme.md
+[33m313ab94[m chore: add test form issue template
+[33m9499c1d[m chore: add refactor form issue template
+[33m7b8a8bf[m chore: add Perf Form issue template
+[33m755ab37[m chore: add docs form issue template
+[33m473be1f[m chore: add CI Form template
+[33m92217bb[m chore: add bug report template
+[33m1742565[m chore: add chore issue template
+[33mda154c8[m docs: add MIT license
+[33md6bf53e[m chore: add feature issue template
+[33mb00a7bd[m Se creo la aplicacion del backend
+[33mdecf5aa[m Se creo la aplicacion de frontend
+[33m7a6e410[m Se creo la aplicacion ERP para ARIA TECH SHOP
+[33m8c212a2[m Initial commit

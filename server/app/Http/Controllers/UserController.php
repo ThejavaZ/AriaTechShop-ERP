@@ -68,6 +68,10 @@ class UserController extends Controller
         //
     }
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
     public function usersChart()
 {
     $users = \DB::table('users')
@@ -79,3 +83,9 @@ class UserController extends Controller
     return response()->json($users);
 }
 }
+<<<<<<< HEAD
+
+
+
+=======
+>>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc

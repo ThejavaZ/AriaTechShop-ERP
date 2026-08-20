@@ -3,7 +3,10 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+<<<<<<< HEAD
+=======
 import { api } from "@/utils/api";
+>>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
 import {
   Mail,
   Lock,
@@ -30,12 +33,50 @@ export default function RegisterPage() {
     setLoading(true);
     setErrors(null);
 
+<<<<<<< HEAD
+    // Validación básica en el cliente
+=======
+>>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
     if (formData.password !== formData.password_confirmation) {
       setErrors({ password: ["Las contraseñas no coinciden"] });
       setLoading(false);
       return;
     }
 
+<<<<<<< HEAD
+    try {
+      const res = await fetch("http://127.0.0.1:8000/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        // Laravel devuelve los errores de validación aquí
+        if (data.errors) {
+          setErrors(data.errors);
+        } else {
+          throw new Error(data.message || "Error al registrarse");
+        }
+        return;
+      }
+
+      // Si el registro es exitoso, Laravel nos loguea automáticamente según tu controlador
+      // Aunque lo ideal sería redirigir al Login o guardar el token si tu controller lo genera
+      alert("¡Cuenta creada con éxito!");
+      router.push("/login");
+    } catch (err: any) {
+      console.error(err);
+      alert("Ocurrió un error inesperado.");
+    } finally {
+      setLoading(false);
+    }
+=======
     // ¡USANDO TU FUNCIÓN CENTRALIZADA!
     const response = await api("/register", {
       method: "POST",
@@ -50,6 +91,7 @@ export default function RegisterPage() {
 
     alert("¡Cuenta creada con éxito!");
     router.push("/login");
+>>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
   };
 
   return (

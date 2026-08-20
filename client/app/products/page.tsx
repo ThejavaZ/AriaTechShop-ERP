@@ -13,6 +13,18 @@ export default function ProductsPage() {
   const addToCart = useCartStore((state) => state.addToCart);
 
   // Carga inicial de datos
+<<<<<<< HEAD
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const [prodData, catData] = await Promise.all([
+        api("products"),
+        api("categories"),
+      ]);
+
+      if (prodData) setProducts(prodData);
+      if (catData) setCategories(catData);
+=======
   // Carga inicial de datos
   useEffect(() => {
     const fetchData = async () => {
@@ -33,6 +45,7 @@ export default function ProductsPage() {
         setCategories(catRes.data); // <--- AQUÍ: Pasamos el array real
       }
 
+>>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
       setLoading(false);
     };
 
@@ -69,6 +82,21 @@ export default function ProductsPage() {
             >
               Todos
             </button>
+<<<<<<< HEAD
+            {categories.map((cat: any) => (
+              <button
+                key={cat.id}
+                onClick={() => setFilter(cat.name)}
+                className={`text-left px-3 py-2 rounded-lg transition ${
+                  filter === cat.name
+                    ? "bg-blue-600 text-white"
+                    : "text-slate-600 hover:bg-slate-100"
+                }`}
+              >
+                {cat.name}
+              </button>
+            ))}
+=======
             {Array.isArray(categories) &&
               categories.map((cat: any) => (
                 <button
@@ -83,6 +111,7 @@ export default function ProductsPage() {
                   {cat.name}
                 </button>
               ))}
+>>>>>>> 92925bac025897d0d44f08032ee7ee60e5a198dc
           </nav>
         </div>
       </aside>

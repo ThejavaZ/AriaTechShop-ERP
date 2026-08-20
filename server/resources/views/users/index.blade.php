@@ -24,6 +24,19 @@
     </a>
 </div>
 
+{{-- <div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-chart-line me-1"></i>
+        Usuarios registrados por fecha
+    </div>
+
+    <div class="card-body">
+        <div style="width:500px;height:250px;">
+            <canvas id="usersChart"></canvas>
+        </div>
+    </div>
+</div> --}}
+
 <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-users me-1"></i>
