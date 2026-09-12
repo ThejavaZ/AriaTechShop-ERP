@@ -152,3 +152,58 @@ To run the Laravel backend tests:
 cd server
 php artisan test
 ```
+
+
+##  Flujo de Trabajo y Reglas de Git (Git Workflow)
+
+Para garantizar la estabilidad del proyecto en producción, el desarrollo sigue una estrategia basada en **GitHub Flow** respaldada por reglas de protección de ramas y plantillas estandarizadas.
+
+---
+
+###  Protección de la Rama Principal (`main`)
+
+La rama `main` se encuentra protegida mediante una **Branch Protection Rule**. 
+
+![Protección de Rama Main](./docs/images/branch-protection.png) <!-- Asegúrate de guardar la captura en tu repo y ajustar la ruta -->
+
+* **Direct Push Bloqueado:** No se permite hacer `git push` directo a `main`.
+* **Pull Request Obligatorio:** Todo cambio debe introducirse mediante un Pull Request (PR).
+* **Aprobación Requerida:** Cada PR requiere como mínimo **1 aprobación (review)** de un integrante del equipo antes de ser fusionado (*Require approvals: 1*).
+* **Descarte por Cambios Nuevos:** Si se suben nuevos commits a una rama de un PR activo, la aprobación previa queda desestimada automáticamente (*Dismiss stale pull request approvals*).
+
+---
+
+###  Convención de Nombres de Ramas
+
+Las ramas deben crearse siguiendo el estándar definido en nuestros templates según el tipo de contribución:
+
+* `fix/nombre-bug` para correcciones de errores.
+* `feat/nombre-funcionalidad` para nuevas características.
+* `refactor/modulo-nombre` para refactorización de código sin cambio funcional.
+* `test/nombre-prueba` para agregar o mejorar la suite de pruebas.
+* `ci/nombre-pipeline` para ajustes en automatizaciones y workflows de GitHub Actions.
+* `perf/mejora-rendimiento` para optimizaciones.
+* `docs/nombre-documento` para cambios en la documentación.
+
+---
+
+###  Estándar para Issues y Pull Requests
+
+El repositorio cuenta con **Issue Templates** estandarizados en `.github/ISSUE_TEMPLATE` y una plantilla obligatoria de **Pull Request** (`PULL_REQUEST_TEMPLATE/pull_request_template.md`).
+
+Al abrir un PR, se desplegará un formulario donde el colaborador debe completar obligatoriamente:
+1. **Resumen del Cambio:** Explicación breve de lo modificado.
+2. **Tipo de Cambio:** Selección con marcadores `[x]` acorde a los prefijos de las ramas (`fix`, `feat`, `refactor`, `test`, `ci`, `perf`, `docs`).
+3. **Vínculo a la Issue:** Enlazar la issue correspondiente (ej. `Closes #12`).
+4. **Evidencias:** Capturas o pruebas de ejecución que respalden el cambio.
+
+---
+
+###  Ciclo de Vida del Desarrollo (Paso a Paso)
+
+1. **Crear una Issue:** Documentar el requerimiento o bug a resolver usando la plantilla correspondiente.
+2. **Crear la rama:** `git checkout -b feat/mi-funcionalidad`
+3. **Realizar Commits:** Mantener commits descriptivos siguiendo el tipo de cambio.
+4. **Subir la rama:** `git push -u origin feat/mi-funcionalidad`
+5. **Abrir Pull Request:** Llenar el formulario automático del PR.
+6. **Code Review & Merge:** Solicitar revisión a un compañero. Una vez aprobada y pasando los tests de CI/CD, realizar el Merge.
