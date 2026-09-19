@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Inventory;
+use App\Observers\InventoryObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 class AppServiceProvider extends ServiceProvider
+
 {
     /**
      * Register any application services.
@@ -20,5 +23,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Schema::defaultStringLength(191);
+        Inventory::observe(InventoryObserver::class);
     }
 }
