@@ -1,10 +1,7 @@
-import type { NextConfig } from "next";
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: false,
+  swcMinify: true,
+}
 
-const nextConfig: NextConfig = {
-  transpilePackages: ["lucide-react"],
-  experimental: {
-    // Aquí puedes dejar otras cosas, pero NO turbo
-  },
-};
-
-export default nextConfig;
+module.exports = nextConfig
