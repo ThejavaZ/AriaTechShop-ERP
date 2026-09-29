@@ -1,0 +1,59 @@
+groups:
+
+  - name: aria-monitoring
+    rules:
+
+      - alert: PrometheusDown
+        expr: up{job="prometheus"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Prometheus no disponible"
+          description: "Prometheus dejó de responder durante más de 1 minuto."
+
+      - alert: ARIAHighCPU
+        expr: |
+          100 - (
+            100 * avg by (instance) (
+              rate(windows_cpu_time_total{mode="idle"}[5m])
+            )
+          ) > 80
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "CPU alta en ARIA TECHSHOP"
+          description: "El uso de CPU supera el 80% durante más de 1 minuto."
+
+      - alert: ARIAHighMemory
+        expr: |
+          100 * (
+            1 - (
+              windows_memory_physical_free_bytes
+              /
+              windows_memory_physical_total_bytes
+            )
+          ) > 85
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Memoria RAM alta en ARIA TECHSHOP"
+          description: "El uso de memoria RAM supera el 85% durante más de 1 minuto."
+
+      - alert: ARIAHighDisk
+        expr: |
+          100 * (
+            1 - (
+              windows_logical_disk_free_bytes{volume="C:"}
+              /
+              windows_logical_disk_size_bytes{volume="C:"}
+            )
+          ) > 85
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Disco C: con uso elevado"
+          description: "El uso del disco C: supera el 85% durante más de 1 minuto."
