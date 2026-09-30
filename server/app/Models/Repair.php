@@ -5,10 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+
 
 class Repair extends Model
 {
     use HasFactory, SoftDeletes;
+    use LogsActivity;
+
+    
 
     protected $fillable = [
         'repair_number',
@@ -47,6 +53,14 @@ class Repair extends Model
     public function customer()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()              // Registra todos los campos
+            ->logOnlyDirty()        // Solo si hubo cambio real
+            ->dontSubmitEmptyLogs(); // No guarda si no cambió nada
     }
 
     public function technician()

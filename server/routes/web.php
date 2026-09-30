@@ -8,6 +8,9 @@ use App\Livewire\Repairs\RepairsList;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SaleDetailController;
+use App\Http\Controllers\AuditLogController;
+
+
 
 Route::get('/auth/login', [AuthController::class, 'login'])->name('login');
 Route::post('/auth/store', [AuthController::class, 'store'])->name('auth.store');
@@ -18,6 +21,8 @@ Route::middleware('auth')->group(function () {
     # --- Home Section --- #
     Route::get('/', [HomeController::class, 'home'])->name('home');
     # --- End Home Section --- #
+
+    Route::get('/audit', [AuditLogController::class, 'index'])->name('audit.index');
 
     # --- User Section --- #
     Route::get('/users', [UserController::class, 'index'])->name('users');
